@@ -28,7 +28,7 @@ async function buildNarrative({
     model,
     store: false,
     instructions:
-      "You are an operator briefing assistant for a tool-safety product. Summarize the best candidate, the primary risk, and the gating recommendation in 2 short paragraphs. Use only the provided ranking data.",
+      "You are an operator briefing assistant for a tool-safety product. Summarize the best candidate, the primary risk, and the guardrail decision in 2 short paragraphs. Use only the provided ranking data.",
     input: JSON.stringify(
       {
         prompt,

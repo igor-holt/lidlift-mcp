@@ -56,6 +56,13 @@ const riskTone = {
   critical: "bg-rose-500/14 text-rose-900 ring-rose-900/15",
 } as const;
 
+const decisionTone = {
+  allow: "bg-emerald-500/12 text-emerald-900 ring-emerald-800/15",
+  review: "bg-amber-500/14 text-amber-900 ring-amber-900/15",
+  clarify: "bg-sky-500/12 text-sky-900 ring-sky-900/15",
+  block: "bg-rose-500/14 text-rose-900 ring-rose-900/15",
+} as const;
+
 const impactTone = {
   positive: "bg-emerald-500/12 text-emerald-900 ring-emerald-800/15",
   neutral: "bg-slate-500/12 text-slate-800 ring-slate-800/15",
@@ -138,14 +145,24 @@ function ResultCard({
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>
-          <Badge
-            className={cn(
-              "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
-              riskTone[result.riskLevel],
-            )}
-          >
-            {result.riskLevel}
-          </Badge>
+          <div className="flex flex-wrap justify-end gap-2">
+            <Badge
+              className={cn(
+                "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
+                decisionTone[result.guardrailDecision],
+              )}
+            >
+              {result.guardrailDecision}
+            </Badge>
+            <Badge
+              className={cn(
+                "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
+                riskTone[result.riskLevel],
+              )}
+            >
+              {result.riskLevel}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -168,9 +185,20 @@ function ResultCard({
         <div className="grid gap-3 md:grid-cols-2">
           <div className="rounded-3xl border border-border/70 bg-background/80 p-4">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Recommendation
+              Guardrail
             </p>
-            <p className="text-sm leading-6 text-foreground">{result.recommendation}</p>
+            <div className="mb-3 flex items-center gap-2">
+              <Badge
+                className={cn(
+                  "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]",
+                  decisionTone[result.guardrailDecision],
+                )}
+              >
+                {result.guardrailDecision}
+              </Badge>
+            </div>
+            <p className="mb-3 text-sm leading-6 text-foreground">{result.guardrailReason}</p>
+            <p className="text-sm leading-6 text-muted-foreground">{result.recommendation}</p>
           </div>
           <div className="rounded-3xl border border-border/70 bg-background/80 p-4">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -476,17 +504,30 @@ export function AnalyzerConsole() {
                     </p>
                     <h3 className="text-base font-semibold text-foreground">{entry.tool.name}</h3>
                   </div>
-                  <Badge
-                    className={cn(
-                      "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]",
-                      riskTone[entry.riskLevel],
-                    )}
-                  >
-                    {entry.riskLevel}
-                  </Badge>
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <Badge
+                      className={cn(
+                        "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]",
+                        decisionTone[entry.guardrailDecision],
+                      )}
+                    >
+                      {entry.guardrailDecision}
+                    </Badge>
+                    <Badge
+                      className={cn(
+                        "rounded-full border-transparent px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]",
+                        riskTone[entry.riskLevel],
+                      )}
+                    >
+                      {entry.riskLevel}
+                    </Badge>
+                  </div>
                 </div>
                 <p className="mb-3 text-sm leading-6 text-muted-foreground">
                   {entry.tool.description}
+                </p>
+                <p className="mb-3 text-sm leading-6 text-foreground">
+                  {entry.guardrailReason}
                 </p>
                 <div className="grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
                   <p>Dissonance: {formatPercent(entry.dissonanceScore)}</p>

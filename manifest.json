@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "Prevent AI agent tool misuse with real-time prompt-tool fit scoring",
   "live_endpoints": {
-    "mcp_server": "https://mcp.iholt.workers.dev",
-    "health_check": "https://mcp.iholt.workers.dev/health",
-    "mcp_endpoint": "https://mcp.iholt.workers.dev/mcp"
+    "mcp_server": "https://api.optimizationinversion.com",
+    "health_check": "https://api.optimizationinversion.com/health",
+    "mcp_endpoint": "https://api.optimizationinversion.com/mcp"
   },
   "integrations": {
     "claude_desktop": {
       "config": {
         "mcpServers": {
           "lidlift": {
-            "url": "https://mcp.iholt.workers.dev/mcp",
+            "url": "https://api.optimizationinversion.com/mcp",
             "transport": "http"
           }
         }
@@ -23,7 +23,7 @@
         "mcp": {
           "servers": {
             "lidlift": {
-              "url": "https://mcp.iholt.workers.dev/mcp",
+              "url": "https://api.optimizationinversion.com/mcp",
               "transport": "http"
             }
           }
@@ -50,6 +50,8 @@
         "alignmentScore": "0-1",
         "dissonanceScore": "0-1",
         "riskLevel": "low|moderate|high|critical",
+        "guardrailDecision": "allow|review|clarify|block",
+        "guardrailReason": "string",
         "recommendation": "string",
         "signals": "array",
         "matchedDomains": "array",
@@ -113,7 +115,7 @@
     "skills": "/skills/",
     "distribution": "/DISTRIBUTION.md",
     "launch_materials": "/LAUNCH_MATERIALS.md",
-    "github": "https://github.com/your-org/lidlift"
+    "github": "https://github.com/igor-holt/lidlift-mcp"
   },
   "contact": {
     "twitter": "@igorholt",

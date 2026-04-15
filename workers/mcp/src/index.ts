@@ -16,9 +16,11 @@ function formatPercent(value: number) {
 function formatBestFitText(result: ReturnType<typeof analyzeToolFit>) {
 	return [
 		`Best fit analysis for "${result.tool.name}"`,
+		`Decision: ${result.guardrailDecision}`,
 		`Risk: ${result.riskLevel}`,
 		`Alignment: ${formatPercent(result.alignmentScore)}`,
 		`Dissonance: ${formatPercent(result.dissonanceScore)}`,
+		`Reason: ${result.guardrailReason}`,
 		`Recommendation: ${result.recommendation}`,
 	].join("\n");
 }
@@ -29,10 +31,10 @@ function formatRankingText(result: ReturnType<typeof rankTools>) {
 	}
 
 	return [
-		`Best candidate: ${result.best.tool.name} (${result.best.riskLevel})`,
+		`Best candidate: ${result.best.tool.name} (${result.best.guardrailDecision}, ${result.best.riskLevel})`,
 		...result.ranked.map(
 			(entry, index) =>
-				`${index + 1}. ${entry.tool.name} — dissonance ${formatPercent(entry.dissonanceScore)} — ${entry.recommendation}`,
+				`${index + 1}. ${entry.tool.name} — ${entry.guardrailDecision} — dissonance ${formatPercent(entry.dissonanceScore)} — ${entry.recommendation}`,
 		),
 	].join("\n");
 }

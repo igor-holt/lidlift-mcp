@@ -11,6 +11,7 @@ describe("analyzeToolFit", () => {
 
     expect(result.dissonanceScore).toBeLessThan(0.45);
     expect(result.riskLevel).toBe("low");
+    expect(result.guardrailDecision).toBe("allow");
   });
 
   it("flags write-risk mismatch", () => {
@@ -20,7 +21,18 @@ describe("analyzeToolFit", () => {
     });
 
     expect(result.riskLevel).toBe("critical");
+    expect(result.guardrailDecision).toBe("block");
     expect(result.conflictingOperations).toContain("read");
+  });
+
+  it("asks for clarification when the prompt domain is explicit but unsupported", () => {
+    const result = analyzeToolFit({
+      prompt: "Find archived genomic variants for this allele and species.",
+      tool: sampleToolCatalog[2],
+    });
+
+    expect(result.guardrailDecision).toBe("clarify");
+    expect(result.mismatchedDomains).toContain("life_science");
   });
 });
 
@@ -32,5 +44,6 @@ describe("rankTools", () => {
     );
 
     expect(ranked.best?.tool.name).toBe("tool_fit_analyzer");
+    expect(ranked.best?.guardrailDecision).not.toBe("block");
   });
 });

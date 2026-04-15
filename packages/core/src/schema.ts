@@ -3,6 +3,12 @@ import { z } from "zod";
 export const operationModeSchema = z.enum(["read", "write", "transform", "mixed"]);
 
 export const riskLevelSchema = z.enum(["low", "moderate", "high", "critical"]);
+export const guardrailDecisionSchema = z.enum([
+  "allow",
+  "review",
+  "clarify",
+  "block",
+]);
 
 export const toolCandidateSchema = z.object({
   name: z.string().min(1),
@@ -27,6 +33,8 @@ export const analysisResultSchema = z.object({
   alignmentScore: z.number().min(0).max(1),
   dissonanceScore: z.number().min(0).max(1),
   riskLevel: riskLevelSchema,
+  guardrailDecision: guardrailDecisionSchema,
+  guardrailReason: z.string(),
   recommendation: z.string(),
   rationale: z.array(z.string()),
   matchedDomains: z.array(z.string()),
