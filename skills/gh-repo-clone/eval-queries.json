@@ -1,0 +1,122 @@
+[
+  {
+    "query": "clone the anthropics/skills repo to my machine",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Clear clone intent with explicit 'clone' keyword"
+  },
+  {
+    "query": "get me a local copy of the code from github.com/user/repo",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Implicit clone intent via 'local copy'"
+  },
+  {
+    "query": "I need to work with the source code from that repository",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Work implies local development requiring clone"
+  },
+  {
+    "query": "download the lidlift repository so I can test it",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Download for testing implies clone"
+  },
+  {
+    "query": "get the anthropics/skills code",
+    "should_trigger": true,
+    "expected_dissonance": "moderate",
+    "rationale": "Ambiguous: could mean clone or view"
+  },
+  {
+    "query": "show me the README from anthropics/skills",
+    "should_trigger": false,
+    "expected_dissonance": "high",
+    "rationale": "Read-only intent, should use gh repo view"
+  },
+  {
+    "query": "what files are in that repo?",
+    "should_trigger": false,
+    "expected_dissonance": "high",
+    "rationale": "Inspection only, should use gh repo view or web"
+  },
+  {
+    "query": "create a pull request for my changes",
+    "should_trigger": false,
+    "expected_dissonance": "critical",
+    "rationale": "PR workflow, not clone operation"
+  },
+  {
+    "query": "fork the anthropics/skills repository",
+    "should_trigger": false,
+    "expected_dissonance": "moderate",
+    "rationale": "Fork is separate operation, use gh repo fork"
+  },
+  {
+    "query": "search for 'mcp' in the anthropics/skills code",
+    "should_trigger": false,
+    "expected_dissonance": "critical",
+    "rationale": "Code search, should use gh search code"
+  },
+  {
+    "query": "check if the repo has a license file",
+    "should_trigger": false,
+    "expected_dissonance": "high",
+    "rationale": "File inspection, should use gh api or web"
+  },
+  {
+    "query": "I want to contribute to that project",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Contributing implies forking and cloning"
+  },
+  {
+    "query": "set up the development environment for that repo",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Dev environment setup requires local clone"
+  },
+  {
+    "query": "how many stars does anthropics/skills have?",
+    "should_trigger": false,
+    "expected_dissonance": "critical",
+    "rationale": "Metadata query, should use gh repo view --json"
+  },
+  {
+    "query": "list all branches in the repository",
+    "should_trigger": false,
+    "expected_dissonance": "high",
+    "rationale": "Metadata inspection, should use gh api"
+  },
+  {
+    "query": "pull the latest changes from the remote",
+    "should_trigger": false,
+    "expected_dissonance": "moderate",
+    "rationale": "Git pull operation, assumes already cloned"
+  },
+  {
+    "query": "grab the code so I can run it locally",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Clear local execution intent requires clone"
+  },
+  {
+    "query": "view the commit history for that file",
+    "should_trigger": false,
+    "expected_dissonance": "high",
+    "rationale": "History inspection, should use gh api or web"
+  },
+  {
+    "query": "make a copy of the anthropics/skills repo",
+    "should_trigger": true,
+    "expected_dissonance": "low",
+    "rationale": "Copy implies clone operation"
+  },
+  {
+    "query": "open the README in my browser",
+    "should_trigger": false,
+    "expected_dissonance": "critical",
+    "rationale": "Browser viewing, should use gh repo view --web"
+  }
+]

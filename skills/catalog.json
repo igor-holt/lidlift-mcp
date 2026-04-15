@@ -1,0 +1,51 @@
+{
+  "name": "LidLift Skills Catalog",
+  "version": "1.0.0",
+  "description": "Demonstration skills showcasing LidLift's tool-dissonance analysis capabilities",
+  "author": "LidLift",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/lidlift"
+  },
+  "skills": [
+    {
+      "name": "gh-repo-clone",
+      "path": "./gh-repo-clone/SKILL.md",
+      "version": "1.0.0",
+      "category": "developer-tools",
+      "tags": ["github", "git", "cli", "tool-dissonance", "mcp"],
+      "complexity": "intermediate",
+      "description": "Analyze whether 'gh repo clone' is the right tool before cloning GitHub repositories. Demonstrates LidLift's tool-prompt fit scoring, mismatch detection, and alternative recommendation capabilities.",
+      "compatibility": "Requires gh CLI. LidLift MCP server optional for live analysis.",
+      "features": [
+        "Prompt-to-tool alignment scoring",
+        "Destructive mismatch detection",
+        "Alternative tool recommendations",
+        "Multi-phase workflow with dissonance thresholds",
+        "Integration examples in TypeScript, JavaScript, Python"
+      ],
+      "use_cases": [
+        "Prevent misuse of clone when user wants read-only access",
+        "Suggest gh repo view for README inspection",
+        "Recommend gh api for single-file reads",
+        "Detect ambiguous intents and request clarification"
+      ],
+      "evaluation": {
+        "test_suite": "./gh-repo-clone/eval-queries.json",
+        "test_cases": 20,
+        "target_accuracy": ">90%"
+      },
+      "references": [
+        "./gh-repo-clone/references/alternatives.md",
+        "./gh-repo-clone/references/analysis-examples.md"
+      ]
+    }
+  ],
+  "metadata": {
+    "created": "2026-04-15",
+    "updated": "2026-04-15",
+    "skill_count": 1,
+    "total_eval_cases": 20
+  }
+}

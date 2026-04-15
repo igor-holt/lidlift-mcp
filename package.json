@@ -1,0 +1,14 @@
+{
+  "name": "tool-dissonance-control",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.30.2",
+  "scripts": {
+    "dev:web": "pnpm --filter web dev",
+    "dev:mcp": "pnpm --filter mcp dev",
+    "build": "pnpm --filter @tool-dissonance/core build && pnpm --filter mcp check && pnpm --filter web build",
+    "lint": "pnpm --filter web lint",
+    "test": "pnpm --filter @tool-dissonance/core test && pnpm --filter mcp test",
+    "cf:typegen": "pnpm --filter mcp cf-typegen"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "name": "LidLift",
+  "version": "1.0.0",
+  "description": "Prevent AI agent tool misuse with real-time prompt-tool fit scoring",
+  "live_endpoints": {
+    "mcp_server": "https://mcp.iholt.workers.dev",
+    "health_check": "https://mcp.iholt.workers.dev/health",
+    "mcp_endpoint": "https://mcp.iholt.workers.dev/mcp"
+  },
+  "integrations": {
+    "claude_desktop": {
+      "config": {
+        "mcpServers": {
+          "lidlift": {
+            "url": "https://mcp.iholt.workers.dev/mcp",
+            "transport": "http"
+          }
+        }
+      }
+    },
+    "opencode": {
+      "config": {
+        "mcp": {
+          "servers": {
+            "lidlift": {
+              "url": "https://mcp.iholt.workers.dev/mcp",
+              "transport": "http"
+            }
+          }
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "analyze_tool_fit",
+      "description": "Score how well a single tool matches a prompt and identify mismatches before execution",
+      "input_schema": {
+        "prompt": "string",
+        "tool": {
+          "name": "string",
+          "description": "string",
+          "category": "string (optional)",
+          "operationMode": "read|write|transform|mixed (optional)",
+          "capabilities": "array of strings (optional)",
+          "tags": "array of strings (optional)"
+        }
+      },
+      "output": {
+        "alignmentScore": "0-1",
+        "dissonanceScore": "0-1",
+        "riskLevel": "low|moderate|high|critical",
+        "recommendation": "string",
+        "signals": "array",
+        "matchedDomains": "array",
+        "mismatchedDomains": "array"
+      }
+    },
+    {
+      "name": "rank_tools",
+      "description": "Rank a catalog of tools by dissonance for a given prompt and return the safest candidate first",
+      "input_schema": {
+        "prompt": "string",
+        "tools": "array of tool objects (optional, uses sample catalog if not provided)"
+      },
+      "output": {
+        "best": "best matching tool analysis",
+        "ranked": "all tools sorted by dissonance (ascending)"
+      }
+    }
+  ],
+  "sample_catalog": [
+    {
+      "name": "weather_lookup",
+      "description": "Read-only weather lookup for current conditions and short forecasts",
+      "category": "weather",
+      "operationMode": "read"
+    },
+    {
+      "name": "github_publish",
+      "description": "Create branches, commit changes, push code, and open pull requests on GitHub",
+      "category": "git",
+      "operationMode": "write"
+    },
+    {
+      "name": "docs_search",
+      "description": "Search developer documentation and return page content snippets",
+      "category": "communication",
+      "operationMode": "read"
+    },
+    {
+      "name": "variant_lookup",
+      "description": "Resolve archived genomic variants and species metadata from EVA",
+      "category": "life_science",
+      "operationMode": "read"
+    },
+    {
+      "name": "tool_fit_analyzer",
+      "description": "Analyze prompt-to-tool fit, detect mismatches, and rank candidate tools by dissonance",
+      "category": "analytics",
+      "operationMode": "transform"
+    }
+  ],
+  "metrics": {
+    "latency_p50": "<100ms",
+    "latency_p99": "<500ms",
+    "uptime_sla": "99.9%",
+    "deployment": "Cloudflare Workers (global edge)",
+    "regions": "300+ edge locations worldwide"
+  },
+  "links": {
+    "documentation": "/README.md",
+    "skills": "/skills/",
+    "distribution": "/DISTRIBUTION.md",
+    "launch_materials": "/LAUNCH_MATERIALS.md",
+    "github": "https://github.com/your-org/lidlift"
+  },
+  "contact": {
+    "twitter": "@igorholt",
+    "email": "igor@lidlift.dev",
+    "discord": "LidLift Discord"
+  }
+}

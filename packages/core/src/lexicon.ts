@@ -1,0 +1,51 @@
+export const DOMAIN_KEYWORDS: Record<string, string[]> = {
+  weather: ["weather", "forecast", "temperature", "rain", "climate", "humidity"],
+  files: ["file", "document", "pdf", "upload", "download", "storage", "folder"],
+  browser: ["browser", "page", "website", "click", "navigate", "screen", "scrape"],
+  git: ["git", "github", "repository", "commit", "pull request", "branch", "merge"],
+  code: ["code", "bug", "test", "build", "deploy", "function", "typescript", "python"],
+  payments: ["payment", "invoice", "subscription", "billing", "checkout", "refund", "stripe"],
+  communication: ["email", "slack", "message", "notion", "calendar", "meeting"],
+  database: ["database", "query", "sql", "record", "table", "postgres", "redis"],
+  life_science: ["gene", "protein", "variant", "ontology", "go term", "allele", "disease"],
+  analytics: ["analytics", "metric", "telemetry", "dashboard", "report", "insight"],
+};
+
+export const OPERATION_KEYWORDS: Record<string, string[]> = {
+  read: [
+    "get",
+    "read",
+    "fetch",
+    "list",
+    "search",
+    "find",
+    "lookup",
+    "inspect",
+    "view",
+    "check",
+  ],
+  write: [
+    "create",
+    "update",
+    "delete",
+    "send",
+    "post",
+    "publish",
+    "deploy",
+    "cancel",
+    "refund",
+    "modify",
+  ],
+  transform: [
+    "summarize",
+    "analyze",
+    "calculate",
+    "classify",
+    "translate",
+    "rewrite",
+    "rank",
+    "score",
+    "compare",
+  ],
+};
+

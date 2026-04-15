@@ -1,0 +1,3 @@
+# No secrets are required for the public LidLift MCP analyzer.
+# Add Worker environment variables here only if you extend the service
+# with authentication, external APIs, or persistence.
