@@ -265,8 +265,8 @@ detects mismatches, and suggests safer alternatives.
 - Blog post or social mention
 - Partnership discussion
 
-**Live demo**: https://mcp.iholt.workers.dev
-**GitHub**: [link]
+**Live demo**: https://lidlift.optimizationinversion.com
+**GitHub**: https://github.com/igor-holt/lidlift-mcp
 
 Would love to discuss partnership opportunities.
 
@@ -401,11 +401,11 @@ Igor
 Founder, LidLift  
 Email: igor@lidlift.dev  
 Twitter: @igorholt  
-LinkedIn: [link]  
+LinkedIn: available on request  
 Discord: LidLift Discord
 
 **Company:**  
 LidLift  
-Website: https://lidlift.dev (coming soon)  
-MCP Endpoint: https://mcp.iholt.workers.dev  
-GitHub: [link]
+Website: https://lidlift.optimizationinversion.com  
+MCP Endpoint: https://api.optimizationinversion.com/mcp  
+GitHub: https://github.com/igor-holt/lidlift-mcp
