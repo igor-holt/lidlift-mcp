@@ -43,54 +43,7 @@ function toStructuredContent<T>(value: T) {
 	return JSON.parse(JSON.stringify(value)) as Record<string, unknown>;
 }
 
-const server = new McpServer({
-	name: "lidlift-mcp",
-	version: "1.0.0",
-});
-
-server.registerTool(
-	"analyze_tool_fit",
-	{
-		title: "Analyze Tool Fit",
-		description:
-			"Score how well a single tool matches a prompt and identify mismatches before execution.",
-		inputSchema: {
-			prompt: z.string().min(1),
-			tool: toolCandidateSchema,
-		},
-	},
-	async ({ prompt, tool }) => {
-		const result = analyzeToolFit({ prompt, tool });
-
-		return {
-			content: [{ type: "text", text: formatBestFitText(result) }],
-			structuredContent: toStructuredContent(result),
-		};
-	},
-);
-
-server.registerTool(
-	"rank_tools",
-	{
-		title: "Rank Tools",
-		description:
-			"Rank a catalog of tools by dissonance for a given prompt and return the safest candidate first.",
-		inputSchema: {
-			prompt: z.string().min(1),
-			tools: toolCatalogSchema.optional(),
-		},
-	},
-	async ({ prompt, tools }) => {
-		const result = rankTools(prompt, tools ?? sampleToolCatalog);
-
-		return {
-			content: [{ type: "text", text: formatRankingText(result) }],
-			structuredContent: toStructuredContent(result),
-		};
-	},
-);
-
-const handleMcp = createMcpHandler(server, {
+const mcpHandlerOptions = {
 	route: "/mcp",
 	corsOptions: {
 		origin: "*",
@@ -100,13 +53,65 @@ const handleMcp = createMcpHandler(server, {
 		exposeHeaders: "MCP-Protocol-Version, mcp-session-id",
 		maxAge: 86400,
 	},
-});
+} as const;
+
+function createServer() {
+	const server = new McpServer({
+		name: "lidlift-mcp",
+		version: "1.0.0",
+	});
+
+	server.registerTool(
+		"analyze_tool_fit",
+		{
+			title: "Analyze Tool Fit",
+			description:
+				"Score how well a single tool matches a prompt and identify mismatches before execution.",
+			inputSchema: {
+				prompt: z.string().min(1),
+				tool: toolCandidateSchema,
+			},
+		},
+		async ({ prompt, tool }) => {
+			const result = analyzeToolFit({ prompt, tool });
+
+			return {
+				content: [{ type: "text", text: formatBestFitText(result) }],
+				structuredContent: toStructuredContent(result),
+			};
+		},
+	);
+
+	server.registerTool(
+		"rank_tools",
+		{
+			title: "Rank Tools",
+			description:
+				"Rank a catalog of tools by dissonance for a given prompt and return the safest candidate first.",
+			inputSchema: {
+				prompt: z.string().min(1),
+				tools: toolCatalogSchema.optional(),
+			},
+		},
+		async ({ prompt, tools }) => {
+			const result = rankTools(prompt, tools ?? sampleToolCatalog);
+
+			return {
+				content: [{ type: "text", text: formatRankingText(result) }],
+				structuredContent: toStructuredContent(result),
+			};
+		},
+	);
+
+	return server;
+}
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		const url = new URL(request.url);
 
 		if (url.pathname === "/mcp") {
+			const handleMcp = createMcpHandler(createServer(), mcpHandlerOptions);
 			return handleMcp(request, env, ctx);
 		}
 
