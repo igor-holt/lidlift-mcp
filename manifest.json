@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Prevent AI agent tool misuse with real-time prompt-tool fit scoring",
   "live_endpoints": {
+    "web_console": "https://lidlift.optimizationinversion.com",
     "mcp_server": "https://api.optimizationinversion.com",
     "health_check": "https://api.optimizationinversion.com/health",
     "mcp_endpoint": "https://api.optimizationinversion.com/mcp"
@@ -111,10 +112,10 @@
     "regions": "300+ edge locations worldwide"
   },
   "links": {
-    "documentation": "/README.md",
-    "skills": "/skills/",
-    "distribution": "/DISTRIBUTION.md",
-    "launch_materials": "/LAUNCH_MATERIALS.md",
+    "documentation": "https://github.com/igor-holt/lidlift-mcp/blob/main/README.md",
+    "skills": "https://github.com/igor-holt/lidlift-mcp/tree/main/skills",
+    "distribution": "https://github.com/igor-holt/lidlift-mcp/blob/main/DISTRIBUTION.md",
+    "launch_materials": "https://github.com/igor-holt/lidlift-mcp/blob/main/LAUNCH_MATERIALS.md",
     "github": "https://github.com/igor-holt/lidlift-mcp"
   },
   "contact": {

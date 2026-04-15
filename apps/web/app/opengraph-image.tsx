@@ -133,7 +133,7 @@ export default async function Image() {
               color: "rgba(20,34,56,0.72)",
             }}
           >
-            <div style={{ display: "flex" }}>api.optimizationinversion.com</div>
+            <div style={{ display: "flex" }}>lidlift.optimizationinversion.com</div>
             <div style={{ display: "flex" }}>Cloudflare + Vercel</div>
           </div>
         </div>

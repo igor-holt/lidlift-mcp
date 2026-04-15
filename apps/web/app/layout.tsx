@@ -17,8 +17,9 @@ export const metadata: Metadata = {
   title: "LidLift",
   description:
     "Stop AI agents from choosing the wrong tool. LidLift scores prompt-tool fit before execution and returns an explicit allow, review, clarify, or block decision.",
-  metadataBase: new URL("https://optimizationinversion.com"),
+  metadataBase: new URL("https://lidlift.optimizationinversion.com"),
   applicationName: "LidLift",
+  category: "technology",
   keywords: [
     "MCP",
     "tool routing",
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     title: "LidLift | Stop AI Agents From Choosing the Wrong Tool",
     description:
       "Pre-execution tool gating for MCP stacks with explicit allow, review, clarify, and block decisions.",
-    url: "https://optimizationinversion.com",
+    url: "https://lidlift.optimizationinversion.com",
     siteName: "LidLift",
     images: [
       {
@@ -55,6 +56,7 @@ export const metadata: Metadata = {
     description:
       "Pre-execution tool gating for MCP stacks with explicit allow, review, clarify, and block decisions.",
     images: ["/opengraph-image"],
+    creator: "@igorholt",
   },
 };
 

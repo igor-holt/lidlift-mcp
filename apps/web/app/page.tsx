@@ -46,6 +46,16 @@ export default function Home() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="rounded-full px-5">
+                <a
+                  href="https://github.com/igor-holt/lidlift-mcp"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View source
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-5">
                 <a href="https://api.optimizationinversion.com" target="_blank" rel="noreferrer">
                   Open live API
                   <ArrowUpRight className="size-4" />
@@ -63,7 +73,7 @@ export default function Home() {
               <Card className="border-none bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.07)] backdrop-blur">
                 <CardHeader>
                   <CardTitle className="text-4xl font-semibold">1</CardTitle>
-                  <CardDescription>Live API surface on your own domain</CardDescription>
+                  <CardDescription>Public repo and launch surface on your own domain</CardDescription>
                 </CardHeader>
               </Card>
               <Card className="border-none bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.07)] backdrop-blur">

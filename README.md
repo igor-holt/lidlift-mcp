@@ -2,6 +2,13 @@
 
 LidLift is a launch-ready tool-dissonance product for MCP stacks. It scores prompt-to-tool fit before execution, turns that score into an explicit guardrail decision, ranks safer alternatives, and exposes the same analysis engine through a remote MCP server.
 
+## Live URLs
+
+- Web console: `https://lidlift.optimizationinversion.com`
+- API health: `https://api.optimizationinversion.com/health`
+- MCP endpoint: `https://api.optimizationinversion.com/mcp`
+- GitHub: `https://github.com/igor-holt/lidlift-mcp`
+
 ## Stack
 
 - `apps/web`: Next.js App Router operator console for Vercel
