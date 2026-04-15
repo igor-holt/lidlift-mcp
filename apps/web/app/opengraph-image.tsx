@@ -74,7 +74,7 @@ export default async function Image() {
                 borderRadius: "999px",
                 background: "rgba(20,34,56,0.08)",
                 padding: "10px 16px",
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: 500,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
@@ -89,7 +89,7 @@ export default async function Image() {
                 color: "rgba(20,34,56,0.68)",
               }}
             >
-              API + MCP
+              Allow / Review / Clarify / Block
             </div>
           </div>
 
@@ -104,24 +104,23 @@ export default async function Image() {
             <div
               style={{
                 display: "flex",
-                fontSize: 76,
+                fontSize: 78,
                 fontWeight: 700,
                 lineHeight: 1.02,
                 letterSpacing: "-0.05em",
               }}
             >
-              Catch the wrong MCP tool before it touches production.
+              Stop AI agents from choosing the wrong tool.
             </div>
             <div
               style={{
                 display: "flex",
-                fontSize: 30,
+                fontSize: 28,
                 lineHeight: 1.35,
                 color: "rgba(20,34,56,0.78)",
               }}
             >
-              Deterministic prompt-tool fit analysis with a public API endpoint on
-              your domain.
+              Pre-execution tool gating for MCP stacks with a live API and remote MCP endpoint.
             </div>
           </div>
 
@@ -134,7 +133,7 @@ export default async function Image() {
               color: "rgba(20,34,56,0.72)",
             }}
           >
-            <div style={{ display: "flex" }}>api.optimizationinversion.com/mcp</div>
+            <div style={{ display: "flex" }}>api.optimizationinversion.com</div>
             <div style={{ display: "flex" }}>Cloudflare + Vercel</div>
           </div>
         </div>

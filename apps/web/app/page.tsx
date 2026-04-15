@@ -1,5 +1,5 @@
-import { sampleToolCatalog } from "@tool-dissonance/core";
 import {
+  ArrowUpRight,
   Cloud,
   ShieldCheck,
   Sparkles,
@@ -8,6 +8,7 @@ import {
 
 import { AnalyzerConsole } from "@/components/analyzer-console";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
@@ -30,30 +31,45 @@ export default function Home() {
 
             <div className="space-y-5">
               <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl lg:text-7xl">
-                Catch the wrong MCP tool before it touches production.
+                Stop AI agents from choosing the wrong tool.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl">
-                LidLift is a launch-ready control plane for prompt-tool fit. Score the risk, rank the safer candidates, and expose the exact same analysis engine through a remote MCP server.
+                LidLift scores prompt-tool fit before execution, turns it into an explicit allow, review, clarify, or block decision, and exposes the same analyzer through a live API and remote MCP server.
               </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg" className="rounded-full px-5">
+                <a href="#console">
+                  Run the analyzer
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-5">
+                <a href="https://api.optimizationinversion.com" target="_blank" rel="noreferrer">
+                  Open live API
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3">
               <Card className="border-none bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.07)] backdrop-blur">
                 <CardHeader>
-                  <CardTitle className="text-4xl font-semibold">{sampleToolCatalog.length}</CardTitle>
-                  <CardDescription>Sample tools included out of the box</CardDescription>
+                  <CardTitle className="text-4xl font-semibold">4</CardTitle>
+                  <CardDescription>Guardrail outcomes: allow, review, clarify, block</CardDescription>
                 </CardHeader>
               </Card>
               <Card className="border-none bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.07)] backdrop-blur">
                 <CardHeader>
                   <CardTitle className="text-4xl font-semibold">1</CardTitle>
-                  <CardDescription>Remote MCP endpoint for agent access</CardDescription>
+                  <CardDescription>Live API surface on your own domain</CardDescription>
                 </CardHeader>
               </Card>
               <Card className="border-none bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.07)] backdrop-blur">
                 <CardHeader>
                   <CardTitle className="text-4xl font-semibold">2</CardTitle>
-                  <CardDescription>Execution modes: deterministic ranker and AI brief</CardDescription>
+                  <CardDescription>Shared runtime surfaces: HTTP and MCP</CardDescription>
                 </CardHeader>
               </Card>
             </div>
@@ -104,18 +120,18 @@ export default function Home() {
           {[
             {
               icon: ShieldCheck,
-              title: "Safer by default",
-              body: "Read-vs-write mismatches are surfaced as critical risk so the wrong tool does not get a silent pass.",
+              title: "Block costly misfires",
+              body: "Read-vs-write mismatches do not just get a scary score. They can be hard-blocked before an agent publishes, refunds, deletes, or sends the wrong thing.",
             },
             {
               icon: Waves,
-              title: "One engine across every surface",
-              body: "The browser preview, Next.js API, and Cloudflare MCP server all use the same shared package and schemas.",
+              title: "One engine, every surface",
+              body: "The browser preview, Next.js API, and Cloudflare MCP server all run the same analyzer, so demos, operators, and agents stay aligned.",
             },
             {
               icon: Sparkles,
-              title: "Launch-ready observability",
-              body: "Health endpoints, typed contracts, and deployment docs are already in place so the product can move from preview to production cleanly.",
+              title: "Built to spread",
+              body: "A public API, a live MCP endpoint, and a sharp share card make this easy to demo, post, and reuse in other tool-routing stacks.",
             },
           ].map(({ body, icon: Icon, title }) => (
             <Card
@@ -142,7 +158,7 @@ export default function Home() {
               What is already productized
             </h2>
             <p className="text-base leading-7 text-muted-foreground">
-              The remaining work is deployment and environment wiring, not architecture selection. The product surface, API contract, and MCP server are now aligned.
+              The remaining work is distribution, benchmarks, and operator adoption. The product surface, API contract, and MCP server are already aligned.
             </p>
           </div>
 
@@ -150,7 +166,7 @@ export default function Home() {
             <CardContent className="grid gap-5 pt-6">
               {[
                 "Shared `@tool-dissonance/core` package for heuristics, schemas, and sample catalog.",
-                "Next.js operator console with live preview, ranked results, and optional OpenAI narrative output.",
+                "Next.js operator console with live preview, ranked results, and explicit guardrail decisions.",
                 "Cloudflare Worker exposing `analyze_tool_fit` and `rank_tools` over remote MCP transport on `/mcp`.",
                 "Health endpoints and environment examples for both the web app and the Worker.",
               ].map((item) => (
@@ -172,7 +188,7 @@ export default function Home() {
               Launch interfaces
             </h2>
             <p className="text-base leading-7 text-muted-foreground">
-              The product ships as both a human-facing console and an agent-facing MCP endpoint. That keeps operator workflows and agent workflows on the same scoring contract.
+              The product ships as both a human-facing console and an agent-facing endpoint. That keeps operator workflows and agent workflows on the same scoring contract.
             </p>
           </div>
 

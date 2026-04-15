@@ -16,8 +16,46 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "LidLift",
   description:
-    "Launch-grade tool routing for MCP stacks. Score prompt-tool fit, gate risky actions, and expose the same analyzer through a remote MCP server.",
+    "Stop AI agents from choosing the wrong tool. LidLift scores prompt-tool fit before execution and returns an explicit allow, review, clarify, or block decision.",
   metadataBase: new URL("https://optimizationinversion.com"),
+  applicationName: "LidLift",
+  keywords: [
+    "MCP",
+    "tool routing",
+    "AI guardrails",
+    "tool selection",
+    "agent safety",
+    "prompt-tool fit",
+    "Cloudflare Workers",
+    "Vercel",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "LidLift | Stop AI Agents From Choosing the Wrong Tool",
+    description:
+      "Pre-execution tool gating for MCP stacks with explicit allow, review, clarify, and block decisions.",
+    url: "https://optimizationinversion.com",
+    siteName: "LidLift",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "LidLift open graph card",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LidLift | Stop AI Agents From Choosing the Wrong Tool",
+    description:
+      "Pre-execution tool gating for MCP stacks with explicit allow, review, clarify, and block decisions.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function RootLayout({
