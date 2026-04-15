@@ -3,6 +3,7 @@ import type {
   AnalysisInput,
   AnalysisResult,
   AnalysisSignal,
+  GuardrailDecision,
   OperationMode,
   RankedToolResult,
   RiskLevel,
@@ -70,20 +71,103 @@ function riskFrom(score: number, destructiveMismatch: boolean): RiskLevel {
   return "low";
 }
 
-function recommendationFor(score: number, destructiveMismatch: boolean) {
+function decisionFor({
+  alignmentScore,
+  destructiveMismatch,
+  dissonanceScore,
+  lexicalOverlap,
+  matchedDomains,
+  matchedOperations,
+  promptDomains,
+  promptOperations,
+}: {
+  alignmentScore: number;
+  destructiveMismatch: boolean;
+  dissonanceScore: number;
+  lexicalOverlap: number;
+  matchedDomains: string[];
+  matchedOperations: OperationMode[];
+  promptDomains: string[];
+  promptOperations: OperationMode[];
+}) {
+  const explicitDomainGap =
+    promptDomains.length > 0 && matchedDomains.length === 0;
+  const explicitOperationGap =
+    promptOperations.length > 0 && matchedOperations.length === 0;
+  const lowConfidence = alignmentScore < 0.32 || lexicalOverlap < 0.16;
+  const positiveEvidence =
+    matchedDomains.length > 0 || matchedOperations.length > 0;
+
   if (destructiveMismatch) {
-    return "Require explicit approval or choose a read-only tool before execution.";
+    return {
+      guardrailDecision: "block" as GuardrailDecision,
+      guardrailReason:
+        "The prompt reads as inspection or retrieval, but this tool exposes a write path.",
+    };
   }
 
-  if (score >= 0.75) {
-    return "Reject this tool for the current prompt and surface safer alternatives.";
+  if (explicitDomainGap && lowConfidence) {
+    return {
+      guardrailDecision: "clarify" as GuardrailDecision,
+      guardrailReason:
+        "The prompt names a domain the tool does not advertise, so the safe next step is clarification or a different tool.",
+    };
   }
 
-  if (score >= 0.45) {
-    return "Gate this tool behind review and provide a better-matched option.";
+  if (explicitOperationGap && lowConfidence) {
+    return {
+      guardrailDecision: "clarify" as GuardrailDecision,
+      guardrailReason:
+        "The intended operation is not clearly supported by this tool, so execution should pause for clarification.",
+    };
   }
 
-  return "This tool is a reasonable fit for the prompt.";
+  if (
+    dissonanceScore >= 0.7 ||
+    (dissonanceScore >= 0.45 &&
+      (!positiveEvidence || lexicalOverlap < 0.22))
+  ) {
+    return {
+      guardrailDecision: "review" as GuardrailDecision,
+      guardrailReason:
+        "Mismatch signals are strong enough that a person should review this tool choice before execution.",
+    };
+  }
+
+  return {
+    guardrailDecision: "allow" as GuardrailDecision,
+    guardrailReason:
+      "The prompt and tool show enough domain and operation evidence to proceed without extra gating.",
+  };
+}
+
+function recommendationFor(decision: GuardrailDecision) {
+  if (decision === "block") {
+    return "Block execution and require a safer read-only or lower-impact tool.";
+  }
+
+  if (decision === "clarify") {
+    return "Ask a clarification question or swap to a tool with explicit domain support before execution.";
+  }
+
+  if (decision === "review") {
+    return "Gate this tool behind human review and surface a better-matched alternative.";
+  }
+
+  return "Allow execution and continue monitoring for downstream failures.";
+}
+
+function decisionPriority(decision: GuardrailDecision) {
+  switch (decision) {
+    case "allow":
+      return 0;
+    case "review":
+      return 1;
+    case "clarify":
+      return 2;
+    case "block":
+      return 3;
+  }
 }
 
 function addSignal(
@@ -153,6 +237,16 @@ export function analyzeToolFit({ prompt, tool }: AnalysisInput): AnalysisResult 
 
   const dissonanceScore = clamp(1 - alignmentScore);
   const riskLevel = riskFrom(dissonanceScore, destructiveMismatch);
+  const { guardrailDecision, guardrailReason } = decisionFor({
+    alignmentScore,
+    destructiveMismatch,
+    dissonanceScore,
+    lexicalOverlap,
+    matchedDomains,
+    matchedOperations,
+    promptDomains,
+    promptOperations,
+  });
 
   const signals: AnalysisSignal[] = [];
 
@@ -180,6 +274,12 @@ export function analyzeToolFit({ prompt, tool }: AnalysisInput): AnalysisResult 
     impact: "negative",
   });
 
+  addSignal(signals, guardrailDecision === "clarify", {
+    label: "Clarification required",
+    detail: guardrailReason,
+    impact: "negative",
+  });
+
   addSignal(signals, matchedOperations.length > 0, {
     label: "Operation fit",
     detail: `Matched intent(s): ${matchedOperations.join(", ")}.`,
@@ -187,6 +287,7 @@ export function analyzeToolFit({ prompt, tool }: AnalysisInput): AnalysisResult 
   });
 
   const rationale = [
+    `Guardrail decision: ${guardrailDecision}.`,
     `Lexical overlap: ${Math.round(lexicalOverlap * 100)}%.`,
     `Domain alignment: ${Math.round(domainAlignment * 100)}%.`,
     `Operation alignment: ${Math.round(operationAlignment * 100)}%.`,
@@ -210,7 +311,9 @@ export function analyzeToolFit({ prompt, tool }: AnalysisInput): AnalysisResult 
     alignmentScore,
     dissonanceScore,
     riskLevel,
-    recommendation: recommendationFor(dissonanceScore, destructiveMismatch),
+    guardrailDecision,
+    guardrailReason,
+    recommendation: recommendationFor(guardrailDecision),
     rationale,
     matchedDomains,
     mismatchedDomains,
@@ -223,7 +326,17 @@ export function analyzeToolFit({ prompt, tool }: AnalysisInput): AnalysisResult 
 export function rankTools(prompt: string, tools: ToolCandidate[]): RankedToolResult {
   const ranked = tools
     .map((tool) => analyzeToolFit({ prompt, tool }))
-    .sort((left, right) => left.dissonanceScore - right.dissonanceScore);
+    .sort((left, right) => {
+      const decisionDelta =
+        decisionPriority(left.guardrailDecision) -
+        decisionPriority(right.guardrailDecision);
+
+      if (decisionDelta !== 0) {
+        return decisionDelta;
+      }
+
+      return left.dissonanceScore - right.dissonanceScore;
+    });
 
   return {
     best: ranked[0] ?? null,

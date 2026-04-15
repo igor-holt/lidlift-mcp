@@ -1,6 +1,6 @@
 # LidLift
 
-LidLift is a launch-ready tool-dissonance product for MCP stacks. It scores prompt-to-tool fit before execution, ranks safer alternatives, and exposes the same analysis engine through a remote MCP server.
+LidLift is a launch-ready tool-dissonance product for MCP stacks. It scores prompt-to-tool fit before execution, turns that score into an explicit guardrail decision, ranks safer alternatives, and exposes the same analysis engine through a remote MCP server.
 
 ## Stack
 
@@ -11,7 +11,7 @@ LidLift is a launch-ready tool-dissonance product for MCP stacks. It scores prom
 
 ## What ships
 
-- Interactive console with live preview, ranked results, and risk labels
+- Interactive console with live preview, ranked results, and explicit `allow` / `review` / `clarify` / `block` gates
 - `POST /api/analyze` for deterministic ranking plus optional OpenAI narrative output
 - `GET /api/health` for web readiness checks
 - `POST /mcp` for remote MCP transport on Cloudflare Workers

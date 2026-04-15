@@ -1,6 +1,7 @@
 export type OperationMode = "read" | "write" | "transform" | "mixed";
 
 export type RiskLevel = "low" | "moderate" | "high" | "critical";
+export type GuardrailDecision = "allow" | "review" | "clarify" | "block";
 
 export interface ToolCandidate {
   name: string;
@@ -28,6 +29,8 @@ export interface AnalysisResult {
   alignmentScore: number;
   dissonanceScore: number;
   riskLevel: RiskLevel;
+  guardrailDecision: GuardrailDecision;
+  guardrailReason: string;
   recommendation: string;
   rationale: string[];
   matchedDomains: string[];
@@ -41,4 +44,3 @@ export interface RankedToolResult {
   best: AnalysisResult | null;
   ranked: AnalysisResult[];
 }
-
