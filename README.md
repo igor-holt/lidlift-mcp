@@ -52,9 +52,9 @@ Worker:
 
 ### Web on Vercel
 
-1. Import `apps/web` as the project root.
+1. The production Vercel project is linked to this repository with `apps/web` as the root directory.
 2. Add `OPENAI_API_KEY`, `OPENAI_MODEL`, and `NEXT_PUBLIC_MCP_SERVER_URL`.
-3. Deploy preview, then promote to production.
+3. Push to `main` to trigger a Git-backed deployment, or use Vercel previews for branch validation.
 
 ### MCP server on Cloudflare
 
