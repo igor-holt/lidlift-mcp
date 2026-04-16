@@ -20,11 +20,11 @@ Stop your AI agent from running the wrong tool. LidLift scores prompt-tool fit B
 - Get safer alternatives
 - Reduce costly mistakes
 
-✅ Live now: https://mcp.iholt.workers.dev
+✅ Live now: https://lidlift.optimizationinversion.com
 ✅ Add to Claude/OpenCode: One-line config
 ✅ Zero setup, instant analysis
 
-First 1000 users get priority support. Try it now → [link]
+First 1000 users get priority support. Try it now → https://lidlift.optimizationinversion.com
 ```
 
 #### Developer Communities
@@ -98,9 +98,9 @@ AI agents running wrong tools is a $1B+ problem (wrong clones, accidental delete
 - Blog post mention or tweet
 - Partnership discussion
 
-Live endpoint: https://mcp.iholt.workers.dev
-GitHub: [link]
-Demo: [link]
+Live endpoint: https://api.optimizationinversion.com/mcp
+GitHub: https://github.com/igor-holt/lidlift-mcp
+Demo: https://lidlift.optimizationinversion.com
 
 Would love to discuss partnership opportunities.
 
@@ -208,9 +208,9 @@ LidLift, an MCP tool that prevents AI agent tool misuse, just hit 10k users in i
 - First tool-purpose-built for agent tool safety
 
 **Assets:**
-- Live demo: https://mcp.iholt.workers.dev
-- GitHub: [link]
-- Screenshots/GIFs: [link]
+- Live demo: https://lidlift.optimizationinversion.com
+- GitHub: https://github.com/igor-holt/lidlift-mcp
+- Screenshots/GIFs: https://lidlift.optimizationinversion.com/opengraph-image
 
 Would you be interested in covering this?
 

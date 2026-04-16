@@ -17,13 +17,13 @@
 
 ```bash
 # Check MCP server health
-curl -s https://mcp.iholt.workers.dev/health | jq .
+curl -s https://api.optimizationinversion.com/health | jq .
 
 # Check root endpoint
-curl -s https://mcp.iholt.workers.dev/ | jq .
+curl -s https://api.optimizationinversion.com/ | jq .
 
 # Test analyze_tool_fit
-curl -X POST https://mcp.iholt.workers.dev/mcp \
+curl -X POST https://api.optimizationinversion.com/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -126,10 +126,10 @@ Track calls to:
 
 ```bash
 # Load test with Apache Bench
-ab -n 1000 -c 100 https://mcp.iholt.workers.dev/health
+ab -n 1000 -c 100 https://api.optimizationinversion.com/health
 
 # Load test with wrk
-wrk -t12 -c400 -d30s https://mcp.iholt.workers.dev/health
+wrk -t12 -c400 -d30s https://api.optimizationinversion.com/health
 ```
 
 ---
@@ -228,7 +228,7 @@ console.log({
 # health-check.sh
 
 while true; do
-  response=$(curl -s -w "\n%{http_code}" https://mcp.iholt.workers.dev/health)
+  response=$(curl -s -w "\n%{http_code}" https://api.optimizationinversion.com/health)
   http_code=$(echo "$response" | tail -n1)
   body=$(echo "$response" | head -n -1)
 
@@ -322,10 +322,10 @@ curl -X GET "https://api.cloudflare.com/client/v4/zones/<zone_id>/analytics/work
 Add to README:
 
 ```markdown
-[![Status](https://img.shields.io/endpoint?url=https://mcp.iholt.workers.dev/health&style=flat-square)](https://mcp.iholt.workers.dev/health)
+[![Status](https://img.shields.io/endpoint?url=https://api.optimizationinversion.com/health&style=flat-square)](https://api.optimizationinversion.com/health)
 [![Uptime](https://img.shields.io/badge/uptime-99.9%25-brightgreen)](https://status.lidlift.dev)
-[![Latency](https://img.shields.io/badge/latency-<50ms-green)](https://mcp.iholt.workers.dev)
-[![Users](https://img.shields.io/badge/users-10k+-blue)](https://github.com/your-org/lidlift)
+[![Latency](https://img.shields.io/badge/latency-<50ms-green)](https://api.optimizationinversion.com)
+[![Users](https://img.shields.io/badge/users-10k+-blue)](https://github.com/igor-holt/lidlift-mcp)
 ```
 
 ---
@@ -347,17 +347,17 @@ Add to README:
 
 ```bash
 # Check all endpoints
-curl -s https://mcp.iholt.workers.dev/health | jq .
-curl -s https://mcp.iholt.workers.dev/ | jq .
+curl -s https://api.optimizationinversion.com/health | jq .
+curl -s https://api.optimizationinversion.com/ | jq .
 
 # Monitor in real-time
-watch -n 5 'curl -s https://mcp.iholt.workers.dev/health | jq -c "{name, ok, timestamp}"'
+watch -n 5 'curl -s https://api.optimizationinversion.com/health | jq -c "{name, ok, timestamp}"'
 
 # Test MCP tool call
-curl -X POST https://mcp.iholt.workers.dev/mcp \
+curl -X POST https://api.optimizationinversion.com/mcp \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"tools/list","id":1}' | jq .
 
 # Performance test
-curl -w "@curl-format.txt" -o /dev/null -s https://mcp.iholt.workers.dev/health
+curl -w "@curl-format.txt" -o /dev/null -s https://api.optimizationinversion.com/health
 ```
