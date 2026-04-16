@@ -8,3 +8,4 @@ pnpm-debug.log
 workers/mcp/.dev.vars
 *.code-workspace
 session-ses_*.md
+.vercel
