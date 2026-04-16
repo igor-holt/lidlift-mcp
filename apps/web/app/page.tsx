@@ -25,7 +25,7 @@ export default function Home() {
                 LidLift
               </Badge>
               <Badge className="rounded-full border-transparent bg-secondary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-secondary-foreground">
-                Vercel + Cloudflare + OpenAI
+                Vercel + Cloudflare + AI Gateway
               </Badge>
             </div>
 
@@ -89,7 +89,7 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="text-2xl">Selected launch integration</CardTitle>
               <CardDescription>
-                The best fit for this product is a split runtime: Vercel for the operator console, Cloudflare for the remote MCP surface, and OpenAI Responses for the optional narrative layer.
+                The best fit for this product is a split runtime: Vercel for the operator console, Cloudflare for the remote MCP surface, and AI Gateway through the Vercel AI SDK for the optional narrative layer.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
@@ -114,10 +114,10 @@ export default function Home() {
               <div className="rounded-3xl border border-border/70 bg-background/75 p-4">
                 <p className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Sparkles className="size-4 text-primary" />
-                  OpenAI Responses for operator briefings
+                  AI Gateway for operator briefings
                 </p>
                 <p className="text-sm leading-6 text-muted-foreground">
-                  Deterministic ranking stays primary. Responses adds a concise launch-grade explanation when you want human-readable triage.
+                  Deterministic ranking stays primary. The AI SDK adds a concise launch-grade explanation when you want human-readable triage.
                 </p>
               </div>
             </CardContent>
@@ -210,12 +210,12 @@ export default function Home() {
             <CardContent className="space-y-4 font-mono text-xs leading-7 text-muted-foreground">
               <div>
                 <p className="font-semibold text-foreground">POST /api/analyze</p>
-                <p>Rank prompt-tool fit for the supplied catalog and optionally attach an OpenAI-generated operator brief.</p>
+                <p>Rank prompt-tool fit for the supplied catalog and optionally attach an AI Gateway operator brief.</p>
               </div>
               <Separator />
               <div>
                 <p className="font-semibold text-foreground">GET /api/health</p>
-                <p>Expose web readiness and whether OpenAI narrative generation is configured.</p>
+                <p>Expose web readiness and whether narrative generation is configured.</p>
               </div>
               <Separator />
               <div>

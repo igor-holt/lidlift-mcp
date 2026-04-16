@@ -364,12 +364,12 @@ Dissonance = 1 - Alignment
 - **`packages/core`**: Shared heuristics, schemas, and analysis engine
 - **`apps/web`**: Next.js operator console (Vercel) with live preview and ranked results
 - **`workers/mcp`**: Cloudflare Worker exposing remote MCP tools on `/mcp`
-- **OpenAI Responses API**: Optional narrative briefing layer for explainability
+- **Vercel AI SDK + AI Gateway**: Optional narrative briefing layer for explainability
 
 ### Live Endpoints
 
 - **Web Console**: Interactive UI with risk labels and alternative suggestions
-- **`POST /api/analyze`**: Deterministic ranking + optional OpenAI narrative
+- **`POST /api/analyze`**: Deterministic ranking + optional AI Gateway narrative
 - **`GET /api/health`**: Web readiness checks
 - **`POST /mcp`**: Remote MCP transport (HTTP streaming)
 
@@ -385,7 +385,7 @@ Dissonance = 1 - Alignment
    ```
 
 2. **Deploy to Production**:
-   - **Vercel (Web)**: Import `apps/web`, add `OPENAI_API_KEY` and `NEXT_PUBLIC_MCP_SERVER_URL`
+   - **Vercel (Web)**: Import `apps/web`, add `AI_GATEWAY_API_KEY` and `NEXT_PUBLIC_MCP_SERVER_URL`
    - **Cloudflare (MCP)**: `pnpm --filter mcp deploy`, use resulting URL
 
 3. **Integrate via MCP**:

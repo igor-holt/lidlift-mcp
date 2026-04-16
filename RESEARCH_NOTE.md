@@ -125,7 +125,7 @@ LidLift is deliberately narrow.
 
 - It is a pre-execution control layer, not a full trace/observability platform.
 - It does not yet include a benchmark harness published with public scoreboards.
-- The optional OpenAI narrative layer is disabled in production until a production `OPENAI_API_KEY` is configured.
+- The optional narrative layer now runs through the Vercel AI SDK and AI Gateway; local development needs `AI_GATEWAY_API_KEY`, while Vercel deployments can use OIDC-backed auth.
 - Hugging Face publication is not yet live because there is no paper page or Hub-authenticated publication flow configured in this repository.
 
 ---

@@ -10,9 +10,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@ai-sdk/devtools':
+        specifier: ^0.0.15
+        version: 0.0.15
       '@tool-dissonance/core':
         specifier: workspace:*
         version: link:../../packages/core
+      ai:
+        specifier: ^6.0.162
+        version: 6.0.162(zod@4.3.6)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -25,9 +31,6 @@ importers:
       next:
         specifier: 16.2.3
         version: 16.2.3(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      openai:
-        specifier: ^6.4.1
-        version: 6.34.0(ws@8.18.0)(zod@4.3.6)
       radix-ui:
         specifier: ^1.4.3
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -98,7 +101,7 @@ importers:
         version: link:../../packages/core
       agents:
         specifier: ^0.11.0
-        version: 0.11.0(@babel/core@7.29.0)(@babel/runtime@7.29.2)(@cloudflare/workers-types@4.20260415.1)(ai@6.0.161(zod@4.3.6))(react@19.2.4)(rolldown@1.0.0-rc.15)(zod@4.3.6)
+        version: 0.11.0(@babel/core@7.29.0)(@babel/runtime@7.29.2)(@cloudflare/workers-types@4.20260415.1)(ai@6.0.162(zod@4.3.6))(react@19.2.4)(rolldown@1.0.0-rc.15)(zod@4.3.6)
       zod:
         specifier: ^4.1.12
         version: 4.3.6
@@ -121,8 +124,12 @@ importers:
 
 packages:
 
-  '@ai-sdk/gateway@3.0.98':
-    resolution: {integrity: sha512-Ol+nP8PIlj8FjN8qKlxhE89N0woqAaGi9CUBGp1boe3RafpphJ7WMuq/RErSvxtwTqje03TP+zIdzP113krxRg==}
+  '@ai-sdk/devtools@0.0.15':
+    resolution: {integrity: sha512-zRF+ClRh0fcmvoKclOcmy2hmTDN48ZfHD3y1fC3Lx0vIYaX55uywssiyaA18WlV2mD+N9H4fgPxq+9JeGfMGlQ==}
+    hasBin: true
+
+  '@ai-sdk/gateway@3.0.99':
+    resolution: {integrity: sha512-8/UuzFY8p+T8j4XP/9m841pUb5bhnFt8cecSnJpd2zhBttNZ6GbfjZTmsqnvM/RwJOvzIsdFULZrU+E9QFREsQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -2491,8 +2498,8 @@ packages:
       vite:
         optional: true
 
-  ai@6.0.161:
-    resolution: {integrity: sha512-ufhmijmx2YyWTPAicGgtpLOB/xD7mG8zKs1pT1Trj+JL/3r1rS8fkMi/cHZoChSAQSGB4pgmcWVxDrVTUvK2IQ==}
+  ai@6.0.162:
+    resolution: {integrity: sha512-1PSvNEK1PEbpUXahnFrcey6l7DJXMVWmg0ibQ8h8oMSe9V1Vx5d+R3xNu0hzBtwqfxYj21ddZo+EUYVs6GOEyA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -4008,18 +4015,6 @@ packages:
     resolution: {integrity: sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw==}
     engines: {node: '>=20'}
 
-  openai@6.34.0:
-    resolution: {integrity: sha512-yEr2jdGf4tVFYG6ohmr3pF6VJuveP0EA/sS8TBx+4Eq5NT10alu5zg2dmxMXMgqpihRDQlFGpRt2XwsGj+Fyxw==}
-    hasBin: true
-    peerDependencies:
-      ws: ^8.18.0
-      zod: ^3.25 || ^4.0
-    peerDependenciesMeta:
-      ws:
-        optional: true
-      zod:
-        optional: true
-
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -4955,7 +4950,13 @@ packages:
 
 snapshots:
 
-  '@ai-sdk/gateway@3.0.98(zod@4.3.6)':
+  '@ai-sdk/devtools@0.0.15':
+    dependencies:
+      '@ai-sdk/provider': 3.0.8
+      '@hono/node-server': 1.19.14(hono@4.12.12)
+      hono: 4.12.12
+
+  '@ai-sdk/gateway@3.0.99(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
       '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
@@ -7065,13 +7066,13 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  agents@0.11.0(@babel/core@7.29.0)(@babel/runtime@7.29.2)(@cloudflare/workers-types@4.20260415.1)(ai@6.0.161(zod@4.3.6))(react@19.2.4)(rolldown@1.0.0-rc.15)(zod@4.3.6):
+  agents@0.11.0(@babel/core@7.29.0)(@babel/runtime@7.29.2)(@cloudflare/workers-types@4.20260415.1)(ai@6.0.162(zod@4.3.6))(react@19.2.4)(rolldown@1.0.0-rc.15)(zod@4.3.6):
     dependencies:
       '@babel/plugin-proposal-decorators': 7.29.0(@babel/core@7.29.0)
       '@cfworker/json-schema': 4.1.1
       '@modelcontextprotocol/sdk': 1.29.0(@cfworker/json-schema@4.1.1)(zod@4.3.6)
       '@rolldown/plugin-babel': 0.2.3(@babel/core@7.29.0)(@babel/runtime@7.29.2)(rolldown@1.0.0-rc.15)
-      ai: 6.0.161(zod@4.3.6)
+      ai: 6.0.162(zod@4.3.6)
       cron-schedule: 6.0.0
       json-schema: 0.4.0
       json-schema-to-typescript: 15.0.4
@@ -7091,9 +7092,9 @@ snapshots:
       - rolldown
       - supports-color
 
-  ai@6.0.161(zod@4.3.6):
+  ai@6.0.162(zod@4.3.6):
     dependencies:
-      '@ai-sdk/gateway': 3.0.98(zod@4.3.6)
+      '@ai-sdk/gateway': 3.0.99(zod@4.3.6)
       '@ai-sdk/provider': 3.0.8
       '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
       '@opentelemetry/api': 1.9.0
@@ -8801,11 +8802,6 @@ snapshots:
       is-inside-container: 1.0.0
       powershell-utils: 0.1.0
       wsl-utils: 0.3.1
-
-  openai@6.34.0(ws@8.18.0)(zod@4.3.6):
-    optionalDependencies:
-      ws: 8.18.0
-      zod: 4.3.6
 
   optionator@0.9.4:
     dependencies:

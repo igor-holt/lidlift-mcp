@@ -1,5 +1,10 @@
-import OpenAI from "openai";
+import { generateText, gateway, wrapLanguageModel } from "ai";
+import { devToolsMiddleware } from "@ai-sdk/devtools";
 import { rankTools, sampleToolCatalog, toolCatalogSchema } from "@tool-dissonance/core";
+import {
+  getNarrativeModelId,
+  hasNarrativeProvider,
+} from "@/lib/narrative-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,23 +18,28 @@ async function buildNarrative({
   prompt: string;
   ranked: ReturnType<typeof rankTools>;
 }) {
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
+  if (!hasNarrativeProvider()) {
     return { model: null, narrative: null } satisfies {
       model: string | null;
       narrative: string | null;
     };
   }
 
-  const model = process.env.OPENAI_MODEL ?? "gpt-5.4-mini";
-  const client = new OpenAI({ apiKey });
-  const response = await client.responses.create({
+  const modelId = getNarrativeModelId();
+  const baseModel = gateway(modelId);
+  const model =
+    process.env.NODE_ENV === "production"
+      ? baseModel
+      : wrapLanguageModel({
+          model: baseModel,
+          middleware: devToolsMiddleware(),
+        });
+
+  const response = await generateText({
     model,
-    store: false,
-    instructions:
+    system:
       "You are an operator briefing assistant for a tool-safety product. Summarize the best candidate, the primary risk, and the guardrail decision in 2 short paragraphs. Use only the provided ranking data.",
-    input: JSON.stringify(
+    prompt: JSON.stringify(
       {
         prompt,
         best: ranked.best,
@@ -38,11 +48,16 @@ async function buildNarrative({
       null,
       2,
     ),
+    providerOptions: {
+      gateway: {
+        tags: ["lidlift", "operator-brief"],
+      },
+    },
   });
 
   return {
-    model,
-    narrative: response.output_text.trim() || null,
+    model: modelId,
+    narrative: response.text.trim() || null,
   } satisfies {
     model: string | null;
     narrative: string | null;

@@ -322,7 +322,7 @@ export function AnalyzerConsole() {
               </div>
               <CardTitle className="text-2xl">Run the launch path before the model does</CardTitle>
               <CardDescription className="max-w-2xl leading-7">
-                Score prompt-tool fit, inspect ranked alternatives, and optionally generate an operator brief with OpenAI Responses.
+                Score prompt-tool fit, inspect ranked alternatives, and optionally generate an operator brief through the Vercel AI SDK.
               </CardDescription>
             </div>
             <div className="rounded-3xl border border-border/70 bg-background/80 px-4 py-3 text-right">
@@ -423,10 +423,10 @@ export function AnalyzerConsole() {
               />
               <span className="space-y-1">
                 <span className="block text-sm font-medium text-foreground">
-                  Generate operator brief with OpenAI
+                  Generate operator brief with AI Gateway
                 </span>
                 <span className="block text-sm leading-6 text-muted-foreground">
-                  When `OPENAI_API_KEY` is set, the API adds a short launch-grade narrative on top of the deterministic ranking.
+                  When AI Gateway auth is available, the API adds a short launch-grade narrative on top of the deterministic ranking.
                 </span>
               </span>
             </label>
@@ -551,7 +551,7 @@ export function AnalyzerConsole() {
               Operator Brief
             </CardTitle>
             <CardDescription>
-              Optional narrative summary from OpenAI Responses. The ranking itself remains deterministic.
+              Optional narrative summary from the Vercel AI SDK. The ranking itself remains deterministic.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -568,7 +568,7 @@ export function AnalyzerConsole() {
             ) : (
               <div className="rounded-3xl border border-dashed border-border/80 bg-background/70 p-6 text-sm leading-6 text-muted-foreground">
                 {includeNarrative
-                  ? "Set OPENAI_API_KEY to enable operator brief generation, then rerun the analyzer."
+                  ? "Set AI Gateway auth for local development, then rerun the analyzer."
                   : "Narrative generation is disabled for this run."}
               </div>
             )}

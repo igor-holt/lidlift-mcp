@@ -12,8 +12,8 @@
 - `NEXT_PUBLIC_MCP_SERVER_URL`: Set this to your MCP server URL after deployment
 
 ## Environment Requirements
-- `OPENAI_API_KEY`: Required for OpenAI narrative briefing
-- `OPENAI_MODEL`: Optional override (default: `gpt-5.4-mini`)
+- `AI_GATEWAY_API_KEY`: Required for local narrative briefing
+- `AI_GATEWAY_MODEL`: Optional override (default: `anthropic/claude-sonnet-4.6`)
 - `NEXT_PUBLIC_MCP_SERVER_URL`: Must be set after MCP server deployment
 
 ## Deployment

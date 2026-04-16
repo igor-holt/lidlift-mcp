@@ -14,12 +14,12 @@ LidLift is a launch-ready tool-dissonance product for MCP stacks. It scores prom
 - `apps/web`: Next.js App Router operator console for Vercel
 - `workers/mcp`: Cloudflare Worker exposing remote MCP tools on `/mcp`
 - `packages/core`: shared heuristics, schemas, and sample catalog
-- `OpenAI Responses API`: optional narrative briefing layer for the web API
+- `Vercel AI SDK + AI Gateway`: optional narrative briefing layer for the web API
 
 ## What ships
 
 - Interactive console with live preview, ranked results, and explicit `allow` / `review` / `clarify` / `block` gates
-- `POST /api/analyze` for deterministic ranking plus optional OpenAI narrative output
+- `POST /api/analyze` for deterministic ranking plus optional AI Gateway narrative output
 - `GET /api/health` for web readiness checks
 - `POST /mcp` for remote MCP transport on Cloudflare Workers
 - Shared Zod-backed schemas so the browser, API layer, and MCP worker stay aligned
@@ -39,8 +39,8 @@ Open the web app from the URL printed by Next.js. The Worker runs locally throug
 Web app:
 
 - Copy [apps/web/.env.example](/Users/igorholt/LidLift MCP/apps/web/.env.example:1)
-- Set `OPENAI_API_KEY` to enable operator brief generation
-- Override `OPENAI_MODEL` if you do not want the default `gpt-5.4-mini`
+- Set `AI_GATEWAY_API_KEY` for local operator brief generation
+- Override `AI_GATEWAY_MODEL` if you do not want the default `anthropic/claude-sonnet-4.6`
 - Set `NEXT_PUBLIC_MCP_SERVER_URL` after deploying the Cloudflare Worker
 
 Worker:
@@ -53,7 +53,7 @@ Worker:
 ### Web on Vercel
 
 1. The production Vercel project is linked to this repository with `apps/web` as the root directory.
-2. Add `OPENAI_API_KEY`, `OPENAI_MODEL`, and `NEXT_PUBLIC_MCP_SERVER_URL`.
+2. Add `AI_GATEWAY_API_KEY`, `AI_GATEWAY_MODEL`, and `NEXT_PUBLIC_MCP_SERVER_URL`.
 3. Push to `main` to trigger a Git-backed deployment, or use Vercel previews for branch validation.
 
 ### MCP server on Cloudflare

@@ -1,3 +1,5 @@
+import { hasNarrativeProvider } from "@/lib/narrative-config";
+
 export const dynamic = "force-dynamic";
 
 export async function GET() {
@@ -6,7 +8,7 @@ export async function GET() {
     ok: true,
     services: {
       analyzer: "ready",
-      openaiNarrative: process.env.OPENAI_API_KEY ? "configured" : "disabled",
+      narrativeBriefing: hasNarrativeProvider() ? "configured" : "disabled",
     },
     timestamp: new Date().toISOString(),
   });
