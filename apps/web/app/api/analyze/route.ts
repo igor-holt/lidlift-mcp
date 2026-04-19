@@ -1,10 +1,11 @@
 import { generateText, gateway, wrapLanguageModel } from "ai";
 import { devToolsMiddleware } from "@ai-sdk/devtools";
-import { rankTools, sampleToolCatalog, toolCatalogSchema } from "@tool-dissonance/core";
+import { autoDetectVendor, rankTools } from "@tool-dissonance/core";
 import {
   getNarrativeModelId,
   hasNarrativeProvider,
 } from "@/lib/narrative-config";
+import { resolveToolCatalog } from "@/lib/tool-discovery";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -64,25 +65,18 @@ async function buildNarrative({
   };
 }
 
-function parseTools(value: unknown) {
-  if (value === undefined) {
-    return sampleToolCatalog;
-  }
-
-  const parsed = toolCatalogSchema.safeParse(value);
-  if (!parsed.success) {
-    throw new Error(parsed.error.issues[0]?.message ?? "Invalid tool catalog.");
-  }
-
-  return parsed.data;
-}
-
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as {
+      auth_token?: unknown;
+      apiKey?: unknown;
+      force_refresh?: unknown;
+      forceRefresh?: unknown;
       includeNarrative?: boolean;
+      model?: unknown;
       prompt?: unknown;
       tools?: unknown;
+      vendor?: unknown;
     };
 
     const prompt =
@@ -90,12 +84,54 @@ export async function POST(request: Request) {
 
     if (!prompt) {
       return Response.json(
-        { error: "Prompt is required." },
+        {
+          ok: false,
+          error: {
+            code: "ERR_REQUEST",
+            message: "Prompt is required.",
+          },
+        },
         { status: 400 },
       );
     }
 
-    const tools = parseTools(body.tools);
+    const requestedVendor =
+      typeof body.vendor === "string" && body.vendor.trim()
+        ? body.vendor
+        : autoDetectVendor(request) ?? undefined;
+
+    const resolvedCatalog = await resolveToolCatalog(
+      {
+        authToken:
+          typeof body.auth_token === "string"
+            ? body.auth_token
+            : typeof body.apiKey === "string"
+              ? body.apiKey
+              : undefined,
+        forceRefresh:
+          body.force_refresh === true ||
+          body.forceRefresh === true ||
+          body.force_refresh === "true" ||
+          body.forceRefresh === "true",
+        model: typeof body.model === "string" ? body.model : undefined,
+        tools: body.tools,
+        vendor: requestedVendor,
+      },
+      process.env,
+    );
+
+    if ("error" in resolvedCatalog) {
+      return Response.json(
+        {
+          ok: false,
+          discovery: resolvedCatalog.discovery,
+          error: resolvedCatalog.error,
+        },
+        { status: resolvedCatalog.status },
+      );
+    }
+
+    const tools = resolvedCatalog.tools;
     const ranked = rankTools(prompt, tools);
     const narrative: NarrativePayload =
       body.includeNarrative === false
@@ -104,21 +140,35 @@ export async function POST(request: Request) {
 
     return Response.json({
       ...ranked,
-      catalogSize: tools.length,
+      catalogSize: resolvedCatalog.catalogSize,
+      catalogSource: resolvedCatalog.catalogSource,
+      discovery: resolvedCatalog.discovery,
       generatedAt: new Date().toISOString(),
       model: narrative.model,
       narrative: narrative.narrative,
       prompt,
+      requestedModel: resolvedCatalog.model,
+      vendor: resolvedCatalog.vendor,
     });
   } catch (error) {
+    const status =
+      error instanceof Error &&
+      error.message === "Invalid tool catalog."
+        ? 400
+        : 500;
+
     return Response.json(
       {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Unable to analyze this request.",
+        ok: false,
+        error: {
+          code: status === 400 ? "ERR_REQUEST" : "ERR_NETWORK",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unable to analyze this request.",
+        },
       },
-      { status: 500 },
+      { status },
     );
   }
 }

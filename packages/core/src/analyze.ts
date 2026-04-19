@@ -183,6 +183,7 @@ export function analyzeToolFit({ prompt, tool }: AnalysisInput): AnalysisResult 
   const toolCorpus = [
     tool.name,
     tool.description,
+    tool.parameters ? JSON.stringify(tool.parameters) : undefined,
     tool.category,
     ...(tool.capabilities ?? []),
     ...(tool.tags ?? []),

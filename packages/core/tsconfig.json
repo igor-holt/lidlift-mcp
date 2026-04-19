@@ -7,7 +7,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts"]

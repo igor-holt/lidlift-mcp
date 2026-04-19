@@ -1,3 +1,10 @@
 # No secrets are required for the public LidLift MCP analyzer.
 # Add Worker environment variables here only if you extend the service
 # with authentication, external APIs, or persistence.
+LIDLIFT_DISCOVERY_CACHE_TTL_SECONDS=600
+# Optional production binding in wrangler.jsonc:
+# "kv_namespaces": [{ "binding": "DISCOVERY_CACHE", "id": "your-kv-namespace-id" }]
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+XAI_API_KEY=
+GEMINI_API_KEY=
