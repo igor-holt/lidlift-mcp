@@ -1,0 +1,6 @@
+{
+  "name": "lidlift-next-steps",
+  "version": "1.0.0",
+  "supportedTargetKinds": ["directory", "plugin"],
+  "command": ["node", "./emit-pack.js"]
+}
