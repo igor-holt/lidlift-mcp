@@ -1,0 +1,10 @@
+.git
+.venv
+__pycache__
+.pytest_cache
+.codex
+.agents
+functions/node_modules
+artifacts/proofs/*.json
+artifacts/reports/*.json
+artifacts/simulations/*.json

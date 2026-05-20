@@ -1,0 +1,18 @@
+# wrangler.toml — be_deploy package
+# Patches coalition-gateway to add /fonts/be/ route.
+# No new Worker. No new KV. Optional R2 for WOFF2 binary.
+
+name = "coalition-gateway"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# Optional: bind R2 for WOFF2 binary delivery (create bucket first)
+# Uncomment after: wrangler r2 bucket create be-font-assets
+# [[r2_buckets]]
+# binding = "FONT_ASSETS"
+# bucket_name = "be-font-assets"
+
+[vars]
+ENVIRONMENT = "production"
+FONT_VERSION = "1.0.0"
+FONT_BASELINE = "barcelona_extropic"

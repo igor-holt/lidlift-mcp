@@ -1,177 +1,162 @@
-# LidLift
+# Genesis Conductor Seismic Command
 
-LidLift is a launch-ready tool-dissonance product for MCP stacks. It scores prompt-to-tool fit before execution, turns that score into an explicit guardrail decision, ranks safer alternatives, and exposes the same analysis engine through a remote MCP server.
+A unified, user-ready command console for Genesis Seismic Log telemetry with procedural liquid visualization and
+assistant integrations (OpenAI + Anthropic). Designed as the primary site for **https://www.genesisconductor.io**
+via Firebase Hosting + Functions.
 
-## Live URLs
+## Features
+- Live / local / auto data toggle with local fallback in auto mode
+- Procedural liquid canvas driven by seismic performance signals
+- Single-call dashboard API (`/api/dashboard`) for faster refreshes
+- Assistant connections for ChatGPT + Claude
+- Built-in code snippets for API consumers
+- Hybrid proof-first ETH console at `/proof-first`
+- Netlify operator deck in `web/` with Three.js visualization, Blobs-backed caching, and Identity-gated AI briefs
+- Optional Cloudflare Agents SDK runtime in `cloudflare/operator-session-agent/` for stateful operator session memory
+- Read-only, bearer-protected balance API at `GET /api/balance`
+- Local-only launcher for proof-first dry runs and guarded live execution
+- Herodotus integration status for Data Structure Indexer planning and Satellite resolution
 
-- Web console: `https://lidlift.optimizationinversion.com`
-- API health: `https://api.optimizationinversion.com/health`
-- MCP endpoint: `https://api.optimizationinversion.com/mcp`
-- GitHub: `https://github.com/igor-holt/lidlift-mcp`
-
-## Stack
-
-- `apps/web`: Next.js App Router operator console for Vercel
-- `workers/mcp`: Cloudflare Worker exposing remote MCP tools on `/mcp`
-- `packages/core`: shared heuristics, schemas, and sample catalog
-- `Vercel AI SDK + AI Gateway`: optional narrative briefing layer for the web API
-
-## What ships
-
-- Interactive console with live preview, ranked results, and explicit `allow` / `review` / `clarify` / `block` gates
-- `GET|POST /api/discover-tools` for vendor-native tool discovery with cache control, force refresh, and vendor auto-detection
-- `POST /api/analyze` for deterministic ranking plus optional AI Gateway narrative output
-- `GET /api/health` for web readiness checks
-- `GET|POST /discover-tools` plus `POST /mcp` for remote MCP transport on Cloudflare Workers
-- Shared Zod-backed schemas so the browser, API layer, and MCP worker stay aligned
-
-## Local development
+## Quick Start (Local)
 
 ```bash
-pnpm install
-pnpm dev:web
-pnpm dev:mcp
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+./scripts/dev.sh
 ```
 
-Open the web app from the URL printed by Next.js. The Worker runs locally through Wrangler.
+Open `http://localhost:8000`.
 
-## Environment
+## Environment Variables
 
-Web app:
+| Variable | Default | Description |
+| --- | --- | --- |
+| `DATA_SOURCE` | `auto` | `auto`, `live`, or `local` data mode |
+| `REMOTE_SEISMIC_BASE` | `https://qmem.genesisconductor.io` | Live API base URL |
+| `ALLOW_REMOTE_OVERRIDE` | `false` | Allow overriding base URL via UI advanced panel |
+| `OPENAI_API_KEY` | unset | OpenAI API key for ChatGPT integration |
+| `OPENAI_MODEL` | `gpt-4o-mini` | OpenAI model for Responses API |
+| `ANTHROPIC_API_KEY` | unset | Anthropic API key for Claude integration |
+| `ANTHROPIC_MODEL` | `claude-sonnet-4-20250514` | Anthropic model for Messages API |
+| `ANTHROPIC_VERSION` | `2023-06-01` | Anthropic API version header |
+| `BASE_RPC_URL` | unset | Base JSON-RPC endpoint used by the proof-first overview and balance API |
+| `READONLY_API_TOKEN` | unset | Bearer token required for `GET /api/balance` |
+| `ALLOW_LOCAL_EXECUTION` | `false` | Enables local signed-bundle submission via the launcher |
+| `GENESIS_SIGNED_BUNDLE_FILE` | unset | Absolute path to a JSON file containing raw signed transactions |
+| `GENESIS_WORKSPACE_ROOT` | unset | Override repo root for tests or isolated runs |
+| `QFLOP_BACKFILL_ROOT` | `/Users/Igor/wQFLOP/qflop-backfill` | Optional local qflop-backfill runtime root for read-only proof import |
+| `QFLOP_PROOF_STALE_HOURS` | `24` | Freshness window for imported qflop VDF proof queue records |
+| `PROOF_FIRST_API_BASE` | unset | Required by the Netlify operator deck to proxy the hosted FastAPI proof-first API |
+| `NETLIFY_AI_GATEWAY_BASE_URL` | unset | Netlify AI Gateway base URL for operator brief generation |
+| `NETLIFY_AI_GATEWAY_TOKEN` | unset | Netlify AI Gateway token for operator brief generation |
+| `AI_GATEWAY_MODEL` | `gpt-4o-mini` | Model used by the Netlify operator brief function |
+| `VITE_CF_AGENT_HOST` | unset | Optional Cloudflare Agents SDK worker origin used by the Netlify deck for session-memory sync |
 
-- Copy [apps/web/.env.example](/Users/igorholt/LidLift MCP/apps/web/.env.example:1)
-- Set `AI_GATEWAY_API_KEY` for local operator brief generation
-- Override `AI_GATEWAY_MODEL` if you do not want the default `anthropic/claude-sonnet-4.6`
-- Set `NEXT_PUBLIC_MCP_SERVER_URL` after deploying the Cloudflare Worker
-- Set `LIDLIFT_DISCOVERY_CACHE_TTL_SECONDS` to tune vendor discovery cache lifetime. Default: `600`
-- Optional vendor discovery keys: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `XAI_API_KEY`, `GEMINI_API_KEY`
+## THRML Demo
 
-Worker:
-
-- No secrets are required for the public analyzer
-- Set `LIDLIFT_DISCOVERY_CACHE_TTL_SECONDS` to tune discovery cache lifetime. Default: `600`
-- Optional vendor discovery keys can be configured as Worker secrets with the same names: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `XAI_API_KEY`, `GEMINI_API_KEY`
-- Optional production KV cache: bind `DISCOVERY_CACHE` in `wrangler.jsonc` and the Worker will persist discovery cache entries in KV instead of process memory
-- Optional local vars can go in [workers/mcp/.dev.vars.example](/Users/igorholt/LidLift MCP/workers/mcp/.dev.vars.example:1) once you extend the Worker with auth or upstream APIs
-
-## Vendor discovery
-
-LidLift can now discover a vendor's built-in tool surface without a hand-authored tool catalog.
-
-### HTTP discovery
+The `/api/thrml/demo` endpoint runs a small Ising sampling demo in the Python backend. Install THRML (and JAX) to enable it:
 
 ```bash
-curl "https://api.optimizationinversion.com/discover-tools?vendor=openai&model=gpt-5" \
-  -H "Authorization: Bearer $OPENAI_API_KEY"
+pip install thrml
 ```
+
+On Firebase Functions, the THRML demo returns an informational message instead.
+
+## API Notes
+
+- `GET /api/dashboard` returns a consolidated payload:
+  - `requested_source`, `resolved_source`, `updated_at`
+  - `health`, `bench`, `seismic`
+- `GET /api/proof-first/overview` returns read-only policy, evidence, proof, and wallet state.
+- `GET /api/proof-first/qflop-backfill` returns a read-only import of local qflop-backfill VDF proof, attestor, A2A, and runtime posture.
+- The proof-first overview includes Herodotus integration status:
+  - Satellite contract resolution is performed from Herodotus deployment manifests.
+  - Data Structure Indexer planning is surfaced as guarded provenance and is not treated as proof by itself.
+- The qflop-backfill import uses local runtime artifacts as evidence and GitHub source metadata from `igor-holt/wQFLOP`; it never reads `.env` or secret-bearing files.
+- `GET /api/proof-first/evidence/{cycle_id}` returns the stored evidence/report bundle for a cycle.
+- `GET /api/balance` requires `Authorization: Bearer <READONLY_API_TOKEN>` and only returns monitored wallet balance metadata.
+- Existing endpoints remain available:
+  - `GET /api/health`
+  - `GET /api/bench/live`
+  - `GET /api/seismic/status`
+
+## Proof-First Launcher
+
+Run the local proof-first flow in dry-run mode:
 
 ```bash
-curl "https://lidlift.optimizationinversion.com/api/discover-tools?model=gpt-5" \
-  -H "X-Vendor: openai" \
-  -H "Authorization: Bearer $OPENAI_API_KEY"
+./bin/one-click-launch.sh --mode eth-agent-2026 --capsule config/soul_capsule.json --proof-gate on --dry-run
 ```
+
+The hosted app remains read-only. Live local execution requires a signed bundle file outside the repo plus `ALLOW_LOCAL_EXECUTION=true`.
+
+## Cloud Run Deployment
+
+The Python app is the primary hosted target for the proof-first console.
 
 ```bash
-curl "https://lidlift.optimizationinversion.com/api/discover-tools" \
-  -X POST \
-  -H "Content-Type: application/json" \
-  -d '{
-    "vendor": "anthropic",
-    "model": "claude-sonnet-4-5",
-    "auth_token": "'"$ANTHROPIC_API_KEY"'"
-  }'
+docker build -t genesis-conductor-app .
+docker run --rm -p 8080:8080 \
+  -e BASE_RPC_URL=https://your-base-rpc.example \
+  -e READONLY_API_TOKEN=replace-with-real-token \
+  genesis-conductor-app
 ```
+
+Set the same environment variables in Cloud Run for deployment.
+
+## Netlify Operator Deck
+
+The `web/` workspace deploys a separate read-only operator mirror with:
+
+- Vite + Three.js UI
+- Netlify Functions proxying `GET /api/proof-first/overview`, `GET /api/proof-first/evidence`, and `GET /api/balance`
+- Netlify Blobs for cache persistence
+- Netlify Identity for operator-only AI brief access
+- Netlify AI Gateway for brief generation when credentials are configured
+
+Use:
 
 ```bash
-curl "https://api.optimizationinversion.com/discover-tools?vendor=openai&model=gpt-5&force_refresh=true" \
-  -H "Authorization: Bearer $OPENAI_API_KEY"
+cd web
+npm install
+netlify link
+netlify deploy
 ```
 
-### Analyze with vendor only
+Set `PROOF_FIRST_API_BASE` in Netlify to the hosted FastAPI origin.
 
-```bash
-curl "https://lidlift.optimizationinversion.com/api/analyze" \
-  -X POST \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "Find the safest way to inspect today's production logs.",
-    "vendor": "openai",
-    "model": "gpt-5"
-  }'
-```
+## Cloudflare Operator Session Agent
 
-If you pass both `vendor` and `tools`, LidLift merges the vendor-discovered tools with your supplied catalog and prefers the later definition when names collide.
+The optional Cloudflare worker in `cloudflare/operator-session-agent/` is a stateful session-memory sidecar. It can
+store operator-facing summaries and latest proof posture, but it is not allowed to become a proof source or execution
+authority.
 
-`/api/analyze` also accepts `force_refresh: true` and will pass it through to vendor discovery before ranking.
+## Firebase Deployment (Primary)
 
-### MCP usage
+1. Ensure Firebase CLI is installed:
+   ```bash
+   npm install -g firebase-tools
+   ```
+2. Authenticate:
+   ```bash
+   firebase login
+   ```
+3. Set your Firebase project ID in `.firebaserc` (default is `genesis-seismic-command`).
+4. (Optional) Set secrets for OpenAI + Anthropic:
+   ```bash
+   firebase functions:secrets:set OPENAI_API_KEY
+   firebase functions:secrets:set ANTHROPIC_API_KEY
+   ```
+5. Deploy:
+   ```bash
+   firebase deploy
+   ```
 
-The Cloudflare Worker now exposes a `discover_vendor_tools` MCP tool and `rank_tools` accepts `vendor`, `model`, and optional `auth_token`.
+Hosting serves the UI, and Functions power the `/api/*` endpoints.
 
-```json
-{
-  "name": "rank_tools",
-  "arguments": {
-    "prompt": "Review the repo and patch the failing test without publishing anything.",
-    "vendor": "xai",
-    "model": "grok-4.20-reasoning"
-  }
-}
-```
+`functions/` remains a legacy compatibility surface for the original seismic dashboard and is not extended for proof-first features.
 
-## Production Hardening & Testing
-
-### Cache strategy
-
-- Default cache TTL is `600` seconds through `LIDLIFT_DISCOVERY_CACHE_TTL_SECONDS`
-- Web routes fall back to in-process memory cache
-- The Cloudflare Worker can use an optional `DISCOVERY_CACHE` KV binding for shared cache across isolates
-- Use `force_refresh=true` only for CI, debugging, or vendor validation drift checks. It bypasses cache and increases upstream pressure
-
-### Rate-limit guidance
-
-- LidLift returns structured discovery errors with codes such as `ERR_RATE_LIMIT`, `ERR_AUTH`, and `ERR_VENDOR`
-- When a vendor returns `429`, LidLift preserves `retryAfterSeconds` when available
-- Recommended production policy: keep the default 10 minute TTL, avoid force refresh in hot paths, and route customer-triggered refreshes through explicit admin actions
-
-### Test coverage
-
-These discovery hardening tests now live under `packages/core/src/vendors/__tests__/`:
-
-- `autoDetectVendor` coverage for `X-Vendor`, provider-specific headers, bearer token patterns, and `User-Agent`
-- `discoverVendorTools` cache hit, miss, force refresh, TTL expiry, and sanitized error behavior
-- Adapter coverage for OpenAI live validation plus Anthropic, xAI, and Gemini static built-in fallbacks
-
-### Add a new vendor
-
-1. Add the vendor literal to [packages/core/src/types.ts](/Users/Igor/Desktop/genesis-conductor-app/packages/core/src/types.ts:4).
-2. Extend `normalizeVendor`, default model mapping, and environment variable lookup in [packages/core/src/discovery.ts](/Users/Igor/Desktop/genesis-conductor-app/packages/core/src/discovery.ts:1).
-3. Add a built-in manifest entry set and expose it through `vendorAdapterRegistry`.
-4. Add auto-detection hints in [packages/core/src/vendors/auto-detect.ts](/Users/Igor/Desktop/genesis-conductor-app/packages/core/src/vendors/auto-detect.ts:1) if the vendor has recognizable headers or token patterns.
-5. Add adapter and discovery tests in `packages/core/src/vendors/__tests__/`.
-
-## Deploy
-
-### Web on Vercel
-
-1. The production Vercel project is linked to this repository with `apps/web` as the root directory.
-2. Add `AI_GATEWAY_API_KEY`, `AI_GATEWAY_MODEL`, and `NEXT_PUBLIC_MCP_SERVER_URL`.
-3. Push to `main` to trigger a Git-backed deployment, or use Vercel previews for branch validation.
-
-### MCP server on Cloudflare
-
-1. Deploy from `workers/mcp`.
-2. Publish with `pnpm --filter mcp deploy`.
-3. The production MCP endpoint is `https://api.optimizationinversion.com/mcp`.
-
-## Validation
-
-These commands are already passing in this workspace:
-
-```bash
-pnpm --filter @tool-dissonance/core test
-pnpm --filter mcp check
-pnpm --filter mcp test
-pnpm --filter web lint
-pnpm build
-```
+## Sources
+See `SOURCES.md` or `/static/sources.html` for citations.

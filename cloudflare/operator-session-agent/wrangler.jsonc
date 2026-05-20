@@ -1,0 +1,20 @@
+{
+  "name": "genesis-operator-session-agent",
+  "main": "src/server.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ProofSessionAgent",
+        "class_name": "ProofSessionAgent"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ProofSessionAgent"]
+    }
+  ]
+}

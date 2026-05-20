@@ -1,0 +1,47 @@
+{
+  "version": "2026-04-10",
+  "chain_allowlist": [8453],
+  "dex_route_allowlist": ["aerodrome.manual.weth"],
+  "token_allowlist": ["WETH", "FEE_TOKEN"],
+  "max_slippage_bps": 75,
+  "max_gas_gwei": 0.25,
+  "treasury_reserve_eth": 0.1,
+  "executor_refuel_floor_eth": 0.01,
+  "proof_required": true,
+  "emergency_pause": false,
+  "herodotus": {
+    "enabled": true,
+    "proof_validation_required": true,
+    "indexer": {
+      "enabled": true,
+      "base_url": "https://rs-indexer.api.herodotus.cloud",
+      "healthcheck_path": "/is-alive",
+      "block_header_by_timestamp_path": "/remappers/get-block-header-by-timestamp",
+      "chain_id": null,
+      "supported_chain_ids": [
+        "1",
+        "11155111",
+        "137",
+        "280",
+        "MADARA_PRAGMA",
+        "STARKNET",
+        "SN_SEPOLIA",
+        "300",
+        "11155420",
+        "421614",
+        "4801",
+        "84532",
+        "UNKNOWN"
+      ]
+    },
+    "satellite": {
+      "enabled": true,
+      "environment": "prod",
+      "manifest_url": "https://raw.githubusercontent.com/HerodotusDev/satellite/main/deployments/prod.json",
+      "chain_id": 8453,
+      "safe_reads_required": true,
+      "interface_path": "@HerodotusDev/satellite/solidity/src/interfaces/ISatellite.sol",
+      "read_selector": "accountFieldSafe"
+    }
+  }
+}

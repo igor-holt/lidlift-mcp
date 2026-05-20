@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Genesis Conductor | Seismic Command</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <a class="sr-only skip-link" href="#mainContent">Skip to main content</a>
+    <canvas id="seismicCanvas"></canvas>
+    <div class="noise"></div>
+    <nav class="top-nav">
+      <a href="/" aria-current="page">Seismic Command</a>
+      <a href="/proof-first">Proof-First Console</a>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Genesis Conductor</p>
+        <h1>Seismic Command</h1>
+        <p class="subtitle">
+          Monitor seismic telemetry, validate S-ToT behavior, and run assistant analysis from one streamlined command
+          surface.
+        </p>
+        <div class="hero-actions">
+          <button class="primary" id="refreshButton">Refresh Telemetry</button>
+          <div class="status-pill" id="statusPill" role="status" aria-live="polite">Status: --</div>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span>Data Source</span>
+            <strong id="sourceLabel">Auto</strong>
+          </div>
+          <div class="meta-card">
+            <span>Last Update</span>
+            <strong id="lastUpdate">--</strong>
+          </div>
+          <div class="meta-card">
+            <span>Crystallization</span>
+            <strong id="crystallizationLabel">--</strong>
+          </div>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <h2>System Overview</h2>
+        <div class="metric-row">
+          <div>
+            <p class="label">GPU</p>
+            <p class="metric" id="gpuModel">--</p>
+          </div>
+          <div>
+            <p class="label">Throughput</p>
+            <p class="metric" id="throughput">--</p>
+          </div>
+          <div>
+            <p class="label">Energy / Op</p>
+            <p class="metric" id="energy">--</p>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-label">
+            <span>Invariance Score</span>
+            <span id="invariance">--</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="invarianceFill"></div>
+          </div>
+        </div>
+        <div class="hero-panel-footer">
+          <span id="protocolLabel">Protocol: --</span>
+          <span id="uptimeLabel">Uptime: --</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <section class="control-section">
+        <div class="control-card">
+          <div class="control-header">
+            <h3>Data Control</h3>
+            <div class="pill-group">
+              <button class="pill" data-source="auto">Auto</button>
+              <button class="pill" data-source="live">Live</button>
+              <button class="pill" data-source="local">Local</button>
+            </div>
+          </div>
+          <p>
+            Choose live telemetry, local simulation, or automatic fallback. Advanced routing and API snippets stay one
+            tap away.
+          </p>
+          <p class="control-hint" id="controlHint" aria-live="polite">Using automatic source selection.</p>
+          <div class="control-actions">
+            <button id="advancedToggle" aria-expanded="false" aria-controls="advancedPanel">Advanced Settings</button>
+            <button id="codeToggle" aria-expanded="false" aria-controls="codePanel">API Snippets</button>
+          </div>
+        </div>
+        <div class="control-card panel" id="advancedPanel">
+          <h3>Advanced</h3>
+          <label for="baseUrl">Remote Base URL</label>
+          <input id="baseUrl" type="url" placeholder="https://qmem.genesisconductor.io" />
+          <label for="refreshRate">Auto-refresh</label>
+          <div class="slider-row">
+            <input id="refreshRate" type="range" min="5" max="60" value="15" />
+            <span id="refreshLabel">15s</span>
+          </div>
+          <label for="autoRefresh">
+            <input type="checkbox" id="autoRefresh" checked />
+            Enable auto-refresh
+          </label>
+          <button class="primary" id="applyAdvanced">Apply Settings</button>
+        </div>
+        <div class="control-card panel" id="codePanel">
+          <h3>Code</h3>
+          <div class="snippet">
+            <div class="snippet-header">
+              <span>cURL</span>
+              <button data-copy="curlSnippet">Copy</button>
+            </div>
+            <pre><code id="curlSnippet"></code></pre>
+          </div>
+          <div class="snippet">
+            <div class="snippet-header">
+              <span>JavaScript</span>
+              <button data-copy="jsSnippet">Copy</button>
+            </div>
+            <pre><code id="jsSnippet"></code></pre>
+          </div>
+          <div class="snippet">
+            <div class="snippet-header">
+              <span>Python</span>
+              <button data-copy="pySnippet">Copy</button>
+            </div>
+            <pre><code id="pySnippet"></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h3>Latency Stack</h3>
+          <div class="metric-row">
+            <div>
+              <p class="label">p50</p>
+              <p class="metric" id="latencyP50">--</p>
+            </div>
+            <div>
+              <p class="label">p95</p>
+              <p class="metric" id="latencyP95">--</p>
+            </div>
+            <div>
+              <p class="label">p99</p>
+              <p class="metric" id="latencyP99">--</p>
+            </div>
+            <div>
+              <p class="label">p999</p>
+              <p class="metric" id="latencyP999">--</p>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Seismic Phases</h3>
+          <div class="phase" id="phaseQuantum">
+            <div>
+              <p class="label">Quantum Branching</p>
+              <p class="metric">Branches <span id="branches">--</span></p>
+            </div>
+            <span class="tag" id="quantumStatus">--</span>
+          </div>
+          <div class="phase" id="phaseSeismography">
+            <div>
+              <p class="label">Seismography</p>
+              <p class="metric">Perturbations <span id="perturbations">--</span></p>
+            </div>
+            <span class="tag" id="seismographyStatus">--</span>
+          </div>
+          <div class="phase" id="phaseCrystallization">
+            <div>
+              <p class="label">Crystallization</p>
+              <p class="metric">Divergence <span id="divergence">--</span></p>
+            </div>
+            <span class="tag" id="crystallizationStatus">--</span>
+          </div>
+          <div class="phase" id="phaseColdSnap">
+            <div>
+              <p class="label">Cold Snap</p>
+              <p class="metric">Synthesis <span id="synthesis">--</span></p>
+            </div>
+            <span class="tag" id="coldSnapStatus">--</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Health & Services</h3>
+          <div class="metric-row">
+            <div>
+              <p class="label">Health</p>
+              <p class="metric" id="healthStatus">--</p>
+            </div>
+            <div>
+              <p class="label">Uptime</p>
+              <p class="metric" id="uptime">--</p>
+            </div>
+          </div>
+          <div class="status-list" id="serviceList"></div>
+        </article>
+      </section>
+
+      <section class="lab">
+        <div class="lab-card">
+          <div>
+            <h2>THRML Lab</h2>
+            <p>
+              Run a compact Ising sampling demo powered by THRML. The output summarizes the sampled state
+              distribution for fast validation and calibration.
+            </p>
+          </div>
+          <button class="primary" id="thrmlRun">Run THRML Demo</button>
+          <pre class="lab-output" id="thrmlOutput"></pre>
+        </div>
+      </section>
+
+      <section class="assistants">
+        <div class="assistant-header">
+          <div>
+            <h2>Assistant Connections</h2>
+            <p>Run S-ToT prompts through OpenAI or Anthropic models with a single dispatch.</p>
+          </div>
+          <div class="assistant-status" id="integrationStatus">Checking integrations…</div>
+        </div>
+        <div class="assistant-grid">
+          <div class="assistant-card">
+            <div class="assistant-title">
+              <h3>ChatGPT</h3>
+              <span class="badge" id="openaiStatus">--</span>
+            </div>
+            <label class="sr-only" for="openaiPrompt">OpenAI prompt</label>
+            <textarea id="openaiPrompt" placeholder="Ask ChatGPT to evaluate or summarize seismic output."></textarea>
+            <button class="primary" id="openaiSend">Send to OpenAI</button>
+            <pre class="assistant-output" id="openaiOutput" aria-live="polite"></pre>
+          </div>
+          <div class="assistant-card">
+            <div class="assistant-title">
+              <h3>Claude</h3>
+              <span class="badge" id="anthropicStatus">--</span>
+            </div>
+            <label class="sr-only" for="anthropicPrompt">Anthropic prompt</label>
+            <textarea id="anthropicPrompt" placeholder="Ask Claude to interpret S-ToT signals or craft reports."></textarea>
+            <button class="primary" id="anthropicSend">Send to Anthropic</button>
+            <pre class="assistant-output" id="anthropicOutput" aria-live="polite"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Genesis Conductor Seismic Command · Built with procedural liquid UI.</span>
+      <a href="/static/sources.html">Sources</a>
+    </footer>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

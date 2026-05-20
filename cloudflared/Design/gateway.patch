@@ -1,0 +1,18 @@
+--- a/coalition-gateway/src/index.ts
++++ b/coalition-gateway/src/index.ts
+@@ -1,3 +1,5 @@
++import { handleFontRoute } from './font_route';
++
+ // existing imports...
+ 
+ var PLUGIN_ROUTES = [
+@@ -20,6 +22,10 @@ var src_default = {
+     const url = new URL(request.url);
+     const path = url.pathname;
+ 
++    // B-E Font delivery — no auth required, public assets
++    if (path.startsWith('/fonts/')) return handleFontRoute(request, env);
++
+     if (request.method === 'OPTIONS') {
+       return new Response(null, {
+         headers: {

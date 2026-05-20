@@ -1,0 +1,12 @@
+stages:
+  - test
+
+proof_first_ci:
+  stage: test
+  image: python:3.12
+  script:
+    - pip install --no-cache-dir -r requirements.txt pytest
+    - python scripts/secret_scan.py
+    - python scripts/validate_schemas.py
+    - python -c "from app.main import app; print(app.title)"
+    - pytest

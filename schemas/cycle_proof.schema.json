@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genesisconductor.io/schemas/cycle_proof.schema.json",
+  "title": "Genesis Mock Cycle Proof",
+  "type": "object",
+  "required": [
+    "proof_id",
+    "cycle_id",
+    "created_at",
+    "proof_engine",
+    "capsule_hash",
+    "pre_state_digest",
+    "payload_digest",
+    "receipt_hashes",
+    "verified"
+  ],
+  "properties": {
+    "proof_id": { "type": "string" },
+    "cycle_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "proof_engine": { "type": "string" },
+    "capsule_hash": { "type": "string" },
+    "pre_state_digest": { "type": "string" },
+    "payload_digest": { "type": "string" },
+    "receipt_hashes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "verified": { "type": "boolean" },
+    "verification_notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+enabled: false
+mode: proof-first
+reason: "Automation stays disabled until receipts-backed positive treasury delta exists."
+jobs:
+  - name: submit_candidate
+    command: "./deploy/jobs/submit_candidate_job.sh"
+  - name: execute_cycle
+    command: "./deploy/jobs/execute_cycle_job.sh"
+  - name: reconcile_cycle
+    command: "./deploy/jobs/reconcile_cycle_job.sh"
+  - name: publish_report
+    command: "./deploy/jobs/publish_report_job.sh"

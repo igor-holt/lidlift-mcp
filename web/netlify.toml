@@ -1,0 +1,48 @@
+[build]
+publish = "dist"
+command = "npm run build"
+
+[functions]
+directory = "netlify/functions"
+node_bundler = "esbuild"
+
+[dev]
+command = "npm run dev"
+targetPort = 5173
+framework = "#custom"
+functions = "netlify/functions"
+
+[[redirects]]
+from = "/api/proof-first/overview"
+to = "/.netlify/functions/overview"
+status = 200
+force = true
+
+[[redirects]]
+from = "/api/proof-first/evidence"
+to = "/.netlify/functions/evidence"
+status = 200
+force = true
+
+[[redirects]]
+from = "/api/balance"
+to = "/.netlify/functions/balance"
+status = 200
+force = true
+
+[[redirects]]
+from = "/api/operator/brief"
+to = "/.netlify/functions/operator-brief"
+status = 200
+force = true
+
+[[redirects]]
+from = "/api/operator/session"
+to = "/.netlify/functions/session"
+status = 200
+force = true
+
+[[headers]]
+for = "/assets/*"
+  [headers.values]
+  Cache-Control = "public, max-age=31536000, immutable"
