@@ -1,0 +1,19 @@
+# LidLift MCP — Tool Dissonance Control Plane
+
+> MCP server for managing tool dissonance in AI agent systems.
+> Part of the LID-LIFT Technical Suite by Igor Holt.
+
+## Features
+- Tool dissonance detection and resolution
+- MCP 2024-11-05 protocol compliant
+- Podman/Docker deployment ready
+- EU AI Act Annex XI governance
+
+## Integration
+- Works with Claude, ChatGPT, Cursor, Gemini
+- Genesis Conductor Ambient Access Layer compatible
+
+## Creator
+Igor Holt — AI Architect
+DOI: 10.5281/zenodo.17784838
+ORCID: 0009-0008-8389-1297
