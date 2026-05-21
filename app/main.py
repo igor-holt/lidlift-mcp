@@ -220,8 +220,7 @@ async def chat_anthropic(request: ChatRequest):
     except RuntimeError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except httpx.HTTPStatusError as exc:
-        detail = exc.response.text if exc.response is not None else str(exc)
-        raise HTTPException(status_code=502, detail=detail) from exc
+        raise HTTPException(status_code=502, detail="Upstream chat provider error") from exc
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
