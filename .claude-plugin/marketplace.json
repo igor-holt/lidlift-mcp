@@ -1,0 +1,55 @@
+{
+  "$schema": "https://www.schemastore.org/schemas/json/claude-code-marketplace.json",
+  "name": "genesis-conductor-lidlift-mcp",
+  "owner": {
+    "name": "Igor Holt (@invariantx)",
+    "email": "iholt@mymail.aacc.edu",
+    "url": "https://github.com/igor-holt"
+  },
+  "description": "LidLift MCP tool-dissonance control plane and prompt-to-tool fit scoring system by Igor Holt (@invariantx) for Genesis Conductor. Scores prompt-to-tool alignment before execution, enforces explicit guardrails (allow/review/clarify/block), ranks safer alternatives via deterministic heuristics + optional AI narrative, and exposes production-grade remote MCP server on Cloudflare Workers. Features vendor-native tool discovery for OpenAI, Anthropic, xAI, Gemini with caching and auto-detection; Next.js operator console at lidlift.optimizationinversion.com; shared Zod schemas across web, API, and MCP layers. Composes seamlessly with OpenClaw / ClawHub skills (grok-persistent-state, mcp-openclaw-bridge, smithery-mcp-orchestrator) for reliable agentic orchestration, MCP integration, and thermodynamic verification patterns. Essential MCP guardrail infrastructure in the LID-LIFT Technical Suite powering production AI agent systems.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/igor-holt/lidlift-mcp",
+  "keywords": [
+    "lidlift",
+    "mcp",
+    "tool-dissonance",
+    "prompt-to-tool-fit",
+    "guardrails",
+    "genesis-conductor",
+    "igor-holt",
+    "invariantx",
+    "remote-mcp-server",
+    "cloudflare-worker",
+    "vendor-discovery",
+    "openai-anthropic-xai-gemini",
+    "agentic-orchestration",
+    "mcp-tools",
+    "mcp-integration",
+    "optimizationinversion",
+    "nextjs-console",
+    "deterministic-ranking",
+    "claude-code-marketplace",
+    "openclaw",
+    "clawhub"
+  ],
+  "plugins": [
+    {
+      "name": "lidlift-mcp",
+      "source": "https://github.com/igor-holt/lidlift-mcp",
+      "description": "Production MCP server and analysis engine for tool-dissonance control. Exposes discover_vendor_tools and rank_tools over remote MCP transport. Live at https://api.optimizationinversion.com/mcp. Installable component for Genesis Conductor agents requiring pre-execution safety scoring and alternative ranking. Pairs with persistent-state skills for long-horizon guardrail memory and OpenClaw bridges for skill publishing.",
+      "version": "1.0.0",
+      "tags": ["mcp", "guardrails", "tool-ranking", "dissonance-control", "genesis-conductor", "remote-server"],
+      "category": "mcp-tools",
+      "homepage": "https://github.com/igor-holt/lidlift-mcp",
+      "keywords": ["lidlift mcp tool dissonance", "prompt tool fit scoring", "mcp guardrails for agents", "vendor tool discovery mcp", "genesis conductor lidlift", "remote mcp server cloudflare"]
+    }
+  ],
+  "links": {
+    "x": "https://x.com/invariantx",
+    "website": "https://genesisconductor.io",
+    "github": "https://github.com/igor-holt/lidlift-mcp",
+    "live-console": "https://lidlift.optimizationinversion.com",
+    "mcp-endpoint": "https://api.optimizationinversion.com/mcp",
+    "api-health": "https://api.optimizationinversion.com/health"
+  }
+}
