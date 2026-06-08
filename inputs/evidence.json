@@ -1,0 +1,179 @@
+{
+  "capsule": {
+    "hash": "fc69ab6dfb4e139e452c0d5d084876c65ab784c7a6c6d1ee78cbff54abe0772e",
+    "proof_required": true,
+    "version": "2026-04-10"
+  },
+  "chain": {
+    "chain_id": 8453,
+    "chain_name": "Base",
+    "snapshot_source": "offline"
+  },
+  "created_at": "2026-05-19T15:11:29.103971+00:00",
+  "cycle_id": "cycle-39a6a18c6344",
+  "herodotus": {
+    "indexer": {
+      "candidate": null,
+      "chain_id": "8453",
+      "health": {
+        "message": "Alive!",
+        "ok": true,
+        "status_code": 200
+      },
+      "provenance": {
+        "endpoint": "https://rs-indexer.api.herodotus.cloud/remappers/get-block-header-by-timestamp",
+        "executed": false,
+        "params": {
+          "chain_id": "8453",
+          "timestamp": 1779203489
+        },
+        "response_version": "docs-2026-04-10"
+      },
+      "reason": "Chain 8453 is not listed in the Herodotus Data Structure Indexer docs for remapper timestamp resolution. Candidate planning stays unverified until a supported remapper chain is configured.",
+      "status": "blocked",
+      "supported_chain_ids": [
+        "1",
+        "11155111",
+        "137",
+        "280",
+        "MADARA_PRAGMA",
+        "STARKNET",
+        "SN_SEPOLIA",
+        "300",
+        "11155420",
+        "421614",
+        "4801",
+        "84532",
+        "UNKNOWN"
+      ]
+    },
+    "proof_validation_required": true,
+    "reference_timestamp": 1779203489,
+    "satellite": {
+      "chain_id": 8453,
+      "connections": [],
+      "contract_address": "0xb036f7Bdd9C7A5984323f148064f815f4C75174b",
+      "environment": "prod",
+      "interface_path": "@HerodotusDev/satellite/solidity/src/interfaces/ISatellite.sol",
+      "manifest_url": "https://raw.githubusercontent.com/HerodotusDev/satellite/main/deployments/prod.json",
+      "read_selector": "accountFieldSafe",
+      "resolution_source": "manifest",
+      "safe_reads_required": true,
+      "status": "resolved"
+    },
+    "status": "guarded",
+    "summary": "Satellite resolved for chain 8453: 0xb036f7Bdd9C7A5984323f148064f815f4C75174b. Chain 8453 is not listed in the Herodotus Data Structure Indexer docs for remapper timestamp resolution. Candidate planning stays unverified until a supported remapper chain is configured. Downstream consumption remains guarded until proof-backed validation succeeds.",
+    "verified_for_consumption": false
+  },
+  "policy_state": {
+    "admissible": true,
+    "reasons": []
+  },
+  "pre_state": {
+    "captured_at": "2026-05-19T15:11:29.103811+00:00",
+    "chain": {
+      "block_number": null,
+      "chain_id": 8453,
+      "chain_name": "Base",
+      "gas_price_wei": 7000000
+    },
+    "cycle_id": "cycle-39a6a18c6344",
+    "source_mode": "offline",
+    "wallets": {
+      "executor": {
+        "address": "0x2222222222222222222222222222222222222222",
+        "native_balance_wei": 50000000000000000,
+        "native_eth": "0.05",
+        "tokens": {
+          "FEE_TOKEN": {
+            "address": "0x5555555555555555555555555555555555555555",
+            "balance_decimal": "0.0",
+            "balance_wei": 0,
+            "decimals": 18
+          },
+          "WETH": {
+            "address": "0x4200000000000000000000000000000000000006",
+            "balance_decimal": "0.0",
+            "balance_wei": 0,
+            "decimals": 18
+          }
+        }
+      },
+      "monitored": {
+        "address": "0x1111111111111111111111111111111111111111",
+        "native_balance_wei": 1250000000000000000,
+        "native_eth": "1.25",
+        "tokens": {
+          "FEE_TOKEN": {
+            "address": "0x5555555555555555555555555555555555555555",
+            "balance_decimal": "42.0",
+            "balance_wei": 42000000000000000000,
+            "decimals": 18
+          },
+          "WETH": {
+            "address": "0x4200000000000000000000000000000000000006",
+            "balance_decimal": "0.18",
+            "balance_wei": 180000000000000000,
+            "decimals": 18
+          }
+        }
+      },
+      "refuel_0": {
+        "address": "0x4444444444444444444444444444444444444444",
+        "native_balance_wei": 30000000000000000,
+        "native_eth": "0.03",
+        "tokens": {
+          "FEE_TOKEN": {
+            "address": "0x5555555555555555555555555555555555555555",
+            "balance_decimal": "0.0",
+            "balance_wei": 0,
+            "decimals": 18
+          },
+          "WETH": {
+            "address": "0x4200000000000000000000000000000000000006",
+            "balance_decimal": "0.0",
+            "balance_wei": 0,
+            "decimals": 18
+          }
+        }
+      },
+      "treasury": {
+        "address": "0x1111111111111111111111111111111111111111",
+        "native_balance_wei": 1250000000000000000,
+        "native_eth": "1.25",
+        "tokens": {
+          "FEE_TOKEN": {
+            "address": "0x5555555555555555555555555555555555555555",
+            "balance_decimal": "42.0",
+            "balance_wei": 42000000000000000000,
+            "decimals": 18
+          },
+          "WETH": {
+            "address": "0x4200000000000000000000000000000000000006",
+            "balance_decimal": "0.18",
+            "balance_wei": 180000000000000000,
+            "decimals": 18
+          }
+        }
+      }
+    }
+  },
+  "quote": {
+    "amount_in_units": 42.0,
+    "expected_delta_eth": 0.02099853,
+    "expected_gas_cost_eth": 1.47e-06,
+    "expected_out_eth": 0.021,
+    "gas_estimate": 210000,
+    "gas_price_wei": 7000000,
+    "notes": [
+      "Configured dry-run quote only.",
+      "Replace with receipts-backed routing inputs before local live execution."
+    ],
+    "route_name": "aerodrome.manual.weth",
+    "score_eth": 0.02089206,
+    "slippage_bps": 50,
+    "source_mode": "configured_manual",
+    "token_in_symbol": "FEE_TOKEN",
+    "token_out_symbol": "WETH"
+  }
+}

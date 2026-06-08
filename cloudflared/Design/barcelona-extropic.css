@@ -1,0 +1,225 @@
+/**
+ * Barcelona-Extropic v1.0 — Universal Brand CSS
+ * Single source of truth. Import this in every environment.
+ *
+ * Web:       <link rel="stylesheet" href="https://YOUR_GATEWAY/fonts/be/barcelona-extropic.css">
+ * CSS:       @import url('https://YOUR_GATEWAY/fonts/be/barcelona-extropic.css');
+ * Electron:  require('./barcelona-extropic.css') or webContents.insertCSS(...)
+ * iOS:       WKUserScript injection (see /fonts/be/ios-inject.js)
+ * Workspace: Use /fonts/be/workspace.json inline styles via Apps Script
+ *
+ * Fallback tier stack:
+ *   1. BarcelonaExtropic WOFF2  (self-hosted, when wasm-pack build complete)
+ *   2. Playfair Display          (Google CDN — available immediately everywhere)
+ *   3. Cormorant Garamond        (Google CDN — lighter weight fallback)
+ *   4. Georgia                   (system serif — universal)
+ *   5. serif                     (system default)
+ *
+ * Each tier is stylistically aligned. Brand drift is minimal across tiers.
+ */
+
+/* ── Google Fonts CDN (Tier 2+3 fallbacks — loaded immediately) ── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+
+/* ── Tier 1: Self-hosted WOFF2 ── */
+/* Uncomment and set URL once wasm-pack → fonttools pipeline produces binary */
+/*
+@font-face {
+  font-family: 'BarcelonaExtropic';
+  src:
+    url('https://YOUR_GATEWAY/fonts/be/v1/barcelona-extropic.woff2') format('woff2'),
+    url('https://YOUR_GATEWAY/fonts/be/v1/barcelona-extropic.woff')  format('woff');
+  font-weight: 100 900;
+  font-style: normal oblique 0deg 15deg;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC,
+    U+029E,  /* ʞ — reversed k */
+    U+2C70;  /* Ɒ — turned alpha */
+}
+*/
+
+/* ── CSS Custom Properties — Seismic Baseline v1.0 ── */
+:root {
+  /* Typographic geometry */
+  --be-stem:            12px;
+  --be-serif:           1px;
+  --be-tracking:        0.25em;
+  --be-tracking-wide:   0.4em;
+  --be-weight-heavy:    900;
+  --be-weight-mid:      700;
+  --be-weight-light:    300;
+  --be-counter-ratio:   1.2;
+  --be-line-height:     1.05;
+
+  /* Chiral / morph */
+  --be-shear:           -12deg;
+  --be-morph-t:         0;        /* 0=canonical, 1=chiral — set via JS */
+
+  /* Color tokens */
+  --be-ink:             #f0ede8;
+  --be-ink-dim:         rgba(240, 237, 232, 0.65);
+  --be-ink-ghost:       rgba(240, 237, 232, 0.25);
+  --be-ground:          #1a1e24;
+  --be-ground-card:     rgba(25, 30, 44, 0.55);
+  --be-grid:            rgba(60, 120, 200, 0.12);
+  --be-hairline:        rgba(255, 255, 255, 0.15);
+  --be-accent:          rgba(180, 200, 240, 0.5);
+
+  /* Font stack */
+  --be-font-display:
+    'BarcelonaExtropic',
+    'Playfair Display',
+    Georgia,
+    serif;
+
+  --be-font-body:
+    'BarcelonaExtropic',
+    'Cormorant Garamond',
+    'Playfair Display',
+    Georgia,
+    serif;
+
+  --be-font-mono:
+    'JetBrains Mono',
+    'Fira Code',
+    'Courier New',
+    monospace;
+}
+
+/* ── Reset for B-E elements ── */
+.be, .be * {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+
+/* ── Core classes ── */
+
+/* Display — hero headings */
+.be-display {
+  font-family: var(--be-font-display);
+  font-weight: var(--be-weight-heavy);
+  letter-spacing: var(--be-tracking);
+  text-transform: uppercase;
+  line-height: var(--be-line-height);
+  color: var(--be-ink);
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* Title — section headings */
+.be-title {
+  font-family: var(--be-font-display);
+  font-weight: var(--be-weight-mid);
+  letter-spacing: var(--be-tracking);
+  text-transform: uppercase;
+  color: var(--be-ink);
+}
+
+/* Subtitle — technical labels */
+.be-subtitle {
+  font-family: var(--be-font-body);
+  font-weight: var(--be-weight-light);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--be-ink-dim);
+}
+
+/* Body — readable prose */
+.be-body {
+  font-family: var(--be-font-body);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  color: var(--be-ink);
+}
+
+/* Label — params / monospace data */
+.be-label {
+  font-family: var(--be-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--be-accent);
+}
+
+/* Kinetic — HFT / velocity variant */
+.be-kinetic {
+  font-family: var(--be-font-display);
+  font-weight: var(--be-weight-heavy);
+  letter-spacing: var(--be-tracking-wide);
+  display: inline-block;
+  transform: skewX(var(--be-shear));
+  color: var(--be-ink);
+}
+
+/* ── Chirality ── */
+.be-chiral-h   { display: inline-block; transform: scaleX(-1); }
+.be-chiral-v   { display: inline-block; transform: scaleY(-1); }
+.be-chiral-180 { display: inline-block; transform: rotate(180deg); }
+
+/* Morph blend — canonical + chiral superimposed */
+.be-morph {
+  position: relative;
+  display: inline-block;
+}
+.be-morph > .be-canonical { opacity: calc(1 - var(--be-morph-t)); }
+.be-morph > .be-chiral {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(-1);
+  opacity: var(--be-morph-t);
+}
+
+/* ── Layout helpers ── */
+.be-grid-bg {
+  background-color: var(--be-ground);
+  background-image:
+    linear-gradient(var(--be-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--be-grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.be-card {
+  background: var(--be-ground-card);
+  border: 1px solid var(--be-hairline);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.be-hairline {
+  border: none;
+  border-top: 1px solid var(--be-hairline);
+  margin: 1.5em 0;
+}
+
+/* ── Animation — morph sweep utility ── */
+@keyframes be-morph-sweep {
+  0%   { --be-morph-t: 0; }
+  50%  { --be-morph-t: 1; }
+  100% { --be-morph-t: 0; }
+}
+
+.be-morph-animate {
+  animation: be-morph-sweep 3s ease-in-out infinite;
+}
+
+/* ── Dark mode — already dark by default, light mode override ── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --be-ink:       #1a1e24;
+    --be-ink-dim:   rgba(26, 30, 36, 0.65);
+    --be-ground:    #f0ede8;
+    --be-hairline:  rgba(0, 0, 0, 0.12);
+    --be-accent:    rgba(60, 80, 140, 0.6);
+  }
+}
+
+/* ── Print — strip backgrounds, preserve typography ── */
+@media print {
+  .be-display, .be-title, .be-subtitle, .be-body {
+    color: #000;
+    -webkit-print-color-adjust: exact;
+  }
+  .be-grid-bg, .be-card { background: none; border: 1px solid #ccc; }
+}

@@ -1,37 +1,23 @@
-# AGENTS.md
+# AGENTS
 
-## Project Structure
-- `packages/core`: Shared heuristics and schemas - critical for understanding tool-fitness ranking
-- `apps/web`: Vercel Next.js app (operator console)
-- `workers/mcp`: Cloudflare Worker MCP server
+## Mission
+Build and maintain the Genesis Conductor Seismic Command console: a unified, user-ready interface for S-ToT metrics,
+procedural visualization, and assistant integrations.
 
-## Development Setup
-- `pnpm install`: Install dependencies
-- `pnpm dev:web`: Start web UI (must run first)
-- `pnpm dev:mcp`: Start MCP server (use `https://localhost:8080/mcp`)
-- `NEXT_PUBLIC_MCP_SERVER_URL`: Set this to your MCP server URL after deployment
+## Core Loops
+- Keep the seismic dashboard responsive and live.
+- Preserve the liquid/procedural aesthetic.
+- Maintain integration endpoints for OpenAI and Anthropic with safe defaults.
 
-## Environment Requirements
-- `AI_GATEWAY_API_KEY`: Required for local narrative briefing
-- `AI_GATEWAY_MODEL`: Optional override (default: `anthropic/claude-sonnet-4.6`)
-- `NEXT_PUBLIC_MCP_SERVER_URL`: Must be set after MCP server deployment
+## Key Files
+- `app/main.py` — FastAPI server + API endpoints
+- `app/data_sources.py` — local + live seismic providers
+- `app/chat_providers.py` — OpenAI + Anthropic connectors
+- `app/static/index.html` — UI shell
+- `app/static/app.js` — UI logic + canvas
+- `app/static/styles.css` — design system
 
-## Deployment
-- **Vercel (Web)**:
-  1. Import `apps/web` as project root
-  2. Add environment variables
-  3. Deploy preview, then promote
-- **Cloudflare MCP**:
-  1. `pnpm --filter mcp deploy`
-  2. Use resulting URL as `NEXT_PUBLIC_MCP_SERVER_URL`
-
-## Validation
-- `pnpm --filter @tool-dissonance/core test` (core heuristics)
-- `pnpm --filter mcp test` (MCP server)
-- `pnpm --filter web lint` (web app)
-- `pnpm build` (full build)
-
-## Skills
-- `skills/`: Demonstration skills showcasing LidLift's tool-dissonance analysis
-- `skills/gh-repo-clone/`: Example skill for `gh repo clone` tool-fit analysis
-- `skills/catalog.json`: Skill index with metadata and evaluation info
+## Operational Notes
+- Use `DATA_SOURCE` env var to set the default data mode (`auto`, `live`, `local`).
+- Set `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` for assistant calls.
+- `REMOTE_SEISMIC_BASE` controls live API routing.

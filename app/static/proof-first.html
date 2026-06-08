@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Genesis Conductor | Proof-First ETH Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+  <body class="proof-first-body">
+    <a class="sr-only skip-link" href="#proofMain">Skip to main content</a>
+    <nav class="top-nav">
+      <a href="/">Seismic Command</a>
+      <a href="/proof-first" aria-current="page">Proof-First Console</a>
+    </nav>
+
+    <header class="proof-hero">
+      <div>
+        <p class="eyebrow">Genesis Conductor</p>
+        <h1>Proof-First ETH Console</h1>
+        <p class="subtitle">
+          Read-only operator surface for Base treasury balances, evidence artifacts, policy state, proofs, and
+          reconciliation. No hosted execution or withdrawal paths exist on this page.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button class="primary" id="proofRefreshButton">Refresh Overview</button>
+        <div class="status-pill" id="proofStatusPill" role="status" aria-live="polite">Status: --</div>
+      </div>
+    </header>
+
+    <main id="proofMain" class="proof-main">
+      <section class="grid">
+        <article class="card">
+          <h2>Health</h2>
+          <div class="metric-row">
+            <div>
+              <p class="label">Status</p>
+              <p class="metric" id="healthStatusValue">--</p>
+            </div>
+            <div>
+              <p class="label">Proof Required</p>
+              <p class="metric" id="proofRequiredValue">--</p>
+            </div>
+            <div>
+              <p class="label">Emergency Pause</p>
+              <p class="metric" id="emergencyPauseValue">--</p>
+            </div>
+          </div>
+          <ul class="issue-list" id="healthIssues"></ul>
+        </article>
+
+        <article class="card">
+          <h2>Soul Capsule</h2>
+          <div class="detail-grid">
+            <div>
+              <p class="label">Version</p>
+              <p class="metric" id="capsuleVersion">--</p>
+            </div>
+            <div>
+              <p class="label">Hash</p>
+              <p class="metric hash-metric" id="capsuleHash">--</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Chain State</h2>
+          <div class="detail-grid">
+            <div>
+              <p class="label">Chain</p>
+              <p class="metric" id="chainName">--</p>
+            </div>
+            <div>
+              <p class="label">Block</p>
+              <p class="metric" id="blockNumber">--</p>
+            </div>
+            <div>
+              <p class="label">Gas Price</p>
+              <p class="metric" id="gasPrice">--</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Herodotus Integration</h2>
+          <div class="detail-grid">
+            <div>
+              <p class="label">Status</p>
+              <p class="metric" id="herodotusStatus">--</p>
+            </div>
+            <div>
+              <p class="label">Indexer Chain</p>
+              <p class="metric" id="herodotusIndexerChain">--</p>
+            </div>
+            <div>
+              <p class="label">Satellite</p>
+              <p class="metric hash-metric" id="satelliteAddress">--</p>
+            </div>
+            <div>
+              <p class="label">Safe Reads</p>
+              <p class="metric" id="satelliteSafeReads">--</p>
+            </div>
+          </div>
+          <pre class="assistant-output compact-output" id="herodotusOutput"></pre>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>Wallet Balances</h2>
+          <p class="label">Live read-only Base balances when `BASE_RPC_URL` is configured.</p>
+        </div>
+        <div class="table-shell">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Wallet</th>
+                <th>Address</th>
+                <th>Native ETH</th>
+                <th>Configured Tokens</th>
+              </tr>
+            </thead>
+            <tbody id="walletTableBody">
+              <tr>
+                <td colspan="4">No wallet data loaded.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Latest Quote</h2>
+          <div class="detail-grid">
+            <div>
+              <p class="label">Cycle ID</p>
+              <p class="metric" id="latestCycleId">--</p>
+            </div>
+            <div>
+              <p class="label">Route</p>
+              <p class="metric" id="latestRoute">--</p>
+            </div>
+            <div>
+              <p class="label">Expected Delta</p>
+              <p class="metric" id="latestDelta">--</p>
+            </div>
+            <div>
+              <p class="label">Created</p>
+              <p class="metric" id="latestEvidenceCreatedAt">--</p>
+            </div>
+          </div>
+          <pre class="assistant-output compact-output" id="latestQuoteOutput"></pre>
+        </article>
+
+        <article class="card">
+          <h2>Proof & Reconciliation</h2>
+          <div class="detail-grid">
+            <div>
+              <p class="label">Proof Verified</p>
+              <p class="metric" id="proofVerified">--</p>
+            </div>
+            <div>
+              <p class="label">Proof Engine</p>
+              <p class="metric" id="proofEngine">--</p>
+            </div>
+            <div>
+              <p class="label">Reconciliation</p>
+              <p class="metric" id="reconciliationStatus">--</p>
+            </div>
+            <div>
+              <p class="label">Delta Source</p>
+              <p class="metric" id="reconciliationSource">--</p>
+            </div>
+          </div>
+          <pre class="assistant-output compact-output" id="proofOutput"></pre>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>QFLOP Backfill Proof Source</h2>
+          <p class="label">Read-only import from local runtime artifacts and GitHub source metadata.</p>
+        </div>
+        <div class="detail-grid">
+          <div>
+            <p class="label">Status</p>
+            <p class="metric" id="qflopStatus">--</p>
+          </div>
+          <div>
+            <p class="label">Latest Proof</p>
+            <p class="metric hash-metric" id="qflopLatestProof">--</p>
+          </div>
+          <div>
+            <p class="label">Wraps</p>
+            <p class="metric" id="qflopWraps">--</p>
+          </div>
+          <div>
+            <p class="label">Revenue Proof</p>
+            <p class="metric" id="qflopRevenueProof">--</p>
+          </div>
+          <div>
+            <p class="label">GitHub Repo</p>
+            <p class="metric" id="qflopGithubRepo">--</p>
+          </div>
+          <div>
+            <p class="label">Runtime Root</p>
+            <p class="metric hash-metric" id="qflopRuntimeRoot">--</p>
+          </div>
+        </div>
+        <pre class="assistant-output compact-output" id="qflopOutput"></pre>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Evidence Lookup</h2>
+          <label for="cycleIdInput">Cycle ID</label>
+          <div class="lookup-row">
+            <input id="cycleIdInput" type="text" placeholder="cycle-..." />
+            <button id="loadEvidenceButton">Load Evidence</button>
+          </div>
+          <pre class="assistant-output compact-output" id="evidenceOutput"></pre>
+        </article>
+
+        <article class="card">
+          <h2>Protected Balance API</h2>
+          <label for="balanceTokenInput">Bearer Token</label>
+          <div class="lookup-row">
+            <input id="balanceTokenInput" type="password" placeholder="READONLY_API_TOKEN" />
+            <button id="loadBalanceButton">Fetch Balance</button>
+          </div>
+          <pre class="assistant-output compact-output" id="balanceOutput"></pre>
+        </article>
+      </section>
+    </main>
+
+    <script src="/static/proof-first.js"></script>
+  </body>
+</html>

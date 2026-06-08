@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genesisconductor.io/schemas/evidence.schema.json",
+  "title": "Genesis Proof-First Evidence",
+  "type": "object",
+  "required": [
+    "cycle_id",
+    "created_at",
+    "chain",
+    "capsule",
+    "policy_state",
+    "pre_state",
+    "quote"
+  ],
+  "properties": {
+    "cycle_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "chain": {
+      "type": "object",
+      "required": ["chain_id", "chain_name"],
+      "properties": {
+        "chain_id": { "type": "integer" },
+        "chain_name": { "type": "string" },
+        "snapshot_source": { "type": "string" }
+      }
+    },
+    "capsule": {
+      "type": "object",
+      "required": ["version", "hash", "proof_required"],
+      "properties": {
+        "version": { "type": "string" },
+        "hash": { "type": "string" },
+        "proof_required": { "type": "boolean" }
+      }
+    },
+    "policy_state": {
+      "type": "object",
+      "required": ["admissible", "reasons"],
+      "properties": {
+        "admissible": { "type": "boolean" },
+        "reasons": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "pre_state": {
+      "type": "object",
+      "required": ["captured_at", "wallets"],
+      "properties": {
+        "captured_at": { "type": "string" },
+        "wallets": { "type": "object" }
+      }
+    },
+    "quote": {
+      "type": "object",
+      "required": [
+        "route_name",
+        "source_mode",
+        "token_in_symbol",
+        "token_out_symbol",
+        "expected_out_eth",
+        "expected_delta_eth",
+        "gas_estimate",
+        "gas_price_wei",
+        "slippage_bps",
+        "score_eth"
+      ],
+      "properties": {
+        "route_name": { "type": "string" },
+        "source_mode": { "type": "string" },
+        "token_in_symbol": { "type": "string" },
+        "token_out_symbol": { "type": "string" },
+        "expected_out_eth": { "type": "number" },
+        "expected_delta_eth": { "type": "number" },
+        "gas_estimate": { "type": "integer" },
+        "gas_price_wei": { "type": "integer" },
+        "slippage_bps": { "type": "integer" },
+        "score_eth": { "type": "number" },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "herodotus": {
+      "type": "object",
+      "required": [
+        "status",
+        "proof_validation_required",
+        "verified_for_consumption",
+        "indexer",
+        "satellite"
+      ],
+      "properties": {
+        "status": { "type": "string" },
+        "proof_validation_required": { "type": "boolean" },
+        "verified_for_consumption": { "type": "boolean" },
+        "summary": { "type": "string" },
+        "reference_timestamp": { "type": "integer" },
+        "indexer": { "type": "object" },
+        "satellite": { "type": "object" }
+      }
+    }
+  }
+}

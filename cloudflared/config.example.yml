@@ -1,0 +1,9 @@
+tunnel: YOUR_TUNNEL_ID
+credentials-file: /Users/your-user/.cloudflared/YOUR_TUNNEL_ID.json
+
+ingress:
+  - hostname: www.genesisconductor.io
+    service: http://localhost:8000
+  - hostname: genesisconductor.io
+    service: http://localhost:8000
+  - service: http_status:404
