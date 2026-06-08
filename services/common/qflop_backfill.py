@@ -224,7 +224,10 @@ def _proof_is_stale(proof: dict[str, Any] | None) -> bool:
     stale_hours = float(os.environ.get("QFLOP_PROOF_STALE_HOURS", "24"))
     try:
         ts = datetime.fromisoformat(str(proof["ts"]).replace("Z", "+00:00"))
+    try:
+        stale_hours = float(os.environ.get("QFLOP_PROOF_STALE_HOURS", "24"))
     except ValueError:
+        stale_hours = 24.0
         return True
     age_seconds = (datetime.now(timezone.utc) - ts.astimezone(timezone.utc)).total_seconds()
     return age_seconds > stale_hours * 3600
